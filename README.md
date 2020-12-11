@@ -1,13 +1,10 @@
-## My Project
+## AWS Observability Build Repo
 
-TODO: Fill this README out!
+This repo is for all release builds that will also generate Docker images and other artifacts that will be published to Amazon ECR and other container or package registries.
 
-Be sure to:
+## Compliance and Security
 
-* Change the title in this README
-* Edit your repository description on GitHub
-
-## Security
+* Before publishing any images, open source and security approvals are mandatory.
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
 
