@@ -18,7 +18,7 @@ The following variables must be specified when triggering:
 * Image version (eg. `v0.5.0`)
 * Name of the ECR Repo to push image to (eg. `aws-otel-collector`)
 * Name of the github organization and repository where the code is hosted (eg. `aws-observability/aws-otel-collector`)
-* Path within repository containing Dockerfile and optional ECR_REPO file
+* Path within repository containing Dockerfile and optional ECR_REPO file (default is `.`)
 
 For any ECR image to push successfully, the following conditions must be met:
 
