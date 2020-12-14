@@ -97,5 +97,5 @@ jobs:
           aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/aws-observability
           docker tag ${{ steps.validate-inputs.outputs.ECR_REPO_NAME }} public.ecr.aws/aws-observability/${{ steps.validate-inputs.outputs.ECR_REPO_NAME }}:${{ github.event.inputs.version }}
           docker tag ${{ steps.validate-inputs.outputs.ECR_REPO_NAME }} public.ecr.aws/aws-observability/${{ steps.validate-inputs.outputs.ECR_REPO_NAME }}:latest 
-          docker push public.ecr.aws/$ECR_REPO:${{ github.event.inputs.version }}
-          docker push public.ecr.aws/$ECR_REPO:latest
+          docker push public.ecr.aws/aws-observability/${{ steps.validate-inputs.outputs.ECR_REPO_NAME }}:${{ github.event.inputs.version }}
+          docker push public.ecr.aws/aws-observability/${{ steps.validate-inputs.outputs.ECR_REPO_NAME }}:latest
