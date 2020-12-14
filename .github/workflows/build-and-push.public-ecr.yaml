@@ -25,30 +25,43 @@ on:
       githubRepo:
         description: 'the name of the repository where code is hosted (org/repo)'
         required: true
-      pathToDockerfile:
-        description: 'the path within the repository to the folder containing the dockerfile'
+      pathToBuildAndReleaseFiles:
+        description: 'the path within the repository to the folder containing the dockerfile and optional ECR_REPO file'
         required: true
         default: "."
-  
-env:
-  ECR_REPO: aws-observability/${{ github.event.inputs.ecrRepo }}
 
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
     steps:
+      - name: Clone Image Code Repo
+        uses: actions/checkout@master
+        with:
+          repository: ${{ github.event.inputs.githubRepo }}
+
       - name: Validate Inputs
         run: |
           FULL_GITHUB_PATH=${{ github.event.inputs.githubRepo }}
           GITHUB_REPO=`echo "${FULL_GITHUB_PATH#*/}"`
           if [[ "${{ github.event.inputs.ecrRepo }}" != "$GITHUB_REPO" ]]
           then
-            echo "ecr repository name (${{ github.event.inputs.ecrRepo }}) must match github repository name ($GITHUB_REPO)"
-            exit 1
+            ECR_REPO_FROM_FILE=`cat ${{ github.event.inputs.pathToBuildAndReleaseFiles }}/ECR_REPO`
+            if [[ "$ECR_REPO_FROM_FILE" == "" ]]
+            then
+              echo "unable to determine ecr repo name, ecr repo name (${{ github.event.inputs.ecrRepo }}) does not match github repo name ($GITHUB_REPO), and no ECR_REPO file found in $GITHUB_REPO"
+              exit 1
+            fi
+            echo "using ecr repo found from ECR_REPO file ($ECR_REPO_FROM_FILE)"
+            echo ::set-output name=ECR_REPO_NAME::$ECR_REPO_FROM_FILE
+          else
+            echo "using ecr repo from input because it matches github repo name ${{ github.event.inputs.ecrRepo }}"
+            echo ::set-output name=ECR_REPO_NAME::${{ github.event.inputs.ecrRepo }}
           fi
+        id: validate-inputs
+
       - name: Create Secret Names From ECR Repo Name
         run: |
-          NEW_ECR_ID=`echo "${{ github.event.inputs.ecrRepo }}" | sed "s/-/_/g" | sed "s/\(.*\)/\U\1/"`
+          NEW_ECR_ID=`echo "${{ steps.validate-inputs.outputs.ECR_REPO_NAME }}" | sed "s/-/_/g" | sed "s/\(.*\)/\U\1/"`
           if [[ "$NEW_ECR_ID" != "" ]]
           then
             echo ::set-output name=KEY_ID::RELEASE_${NEW_ECR_ID}_KEY_ID
@@ -64,6 +77,7 @@ jobs:
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip awscliv2.zip
           sudo ./aws/install
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         env:
@@ -73,20 +87,15 @@ jobs:
           aws-access-key-id: ${{ secrets[env.KEY_ID] }}
           aws-secret-access-key: ${{ secrets[env.SECRET_ID] }}
           aws-region: us-west-2
-      
-      - name: Clone Image Code Repo
-        uses: actions/checkout@master
-        with:
-          repository: ${{ github.event.inputs.githubRepo }}
         
       - name: Build Image
         run: |
-          docker build ${{ github.event.inputs.pathToDockerfile}} -t ${{ github.event.inputs.ecrRepo }}
+          docker build ${{ github.event.inputs.pathToBuildAndReleaseFiles }} -t ${{ steps.validate-inputs.outputs.ECR_REPO_NAME }}
       
       - name: upload to ECR
         run: |
           aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/aws-observability
-          docker tag ${{ github.event.inputs.ecrRepo }} public.ecr.aws/$ECR_REPO:${{ github.event.inputs.version }}
-          docker tag ${{ github.event.inputs.ecrRepo }} public.ecr.aws/$ECR_REPO:latest 
+          docker tag ${{ steps.validate-inputs.outputs.ECR_REPO_NAME }} public.ecr.aws/aws-observability/${{ steps.validate-inputs.outputs.ECR_REPO_NAME }}:${{ github.event.inputs.version }}
+          docker tag ${{ steps.validate-inputs.outputs.ECR_REPO_NAME }} public.ecr.aws/aws-observability/${{ steps.validate-inputs.outputs.ECR_REPO_NAME }}:latest 
           docker push public.ecr.aws/$ECR_REPO:${{ github.event.inputs.version }}
           docker push public.ecr.aws/$ECR_REPO:latest
