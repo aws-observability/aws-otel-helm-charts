@@ -1,5 +1,5 @@
-# Specify namespace for ADOT Collector as a Sidecar.
 {{- if .Values.adotCollector.sidecar.enabled }}
+# Specify namespace for ADOT Collector as a Sidecar.
 apiVersion: v1
 kind: Namespace
 metadata:

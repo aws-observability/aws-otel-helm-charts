@@ -1,5 +1,5 @@
-# ClusterRole for Fluent Bit as a DaemonSet contains rules, and defines and grants permissions to specified resources/endpoints.
 {{- if .Values.fluentbit.enabled }}
+# ClusterRole for Fluent Bit as a DaemonSet contains rules, and defines and grants permissions to specified resources/endpoints.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:

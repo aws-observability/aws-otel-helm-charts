@@ -1,5 +1,5 @@
-# Fluent Bit as a DaemonSet for deployment.
 {{- if .Values.fluentbit.enabled }}
+# Fluent Bit as a DaemonSet for deployment.
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:

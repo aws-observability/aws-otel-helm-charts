@@ -10,7 +10,7 @@ maintainers:
     email: hyunuk@amazon.com
   - name: James Park
     email: jamesjhp@amazon.com
-home: https://github.com/aws-observability/aws-otel-community/adot-eks-on-ec2-to-cw
+home: https://github.com/aws-observability/aws-otel-helm-charts/adot-eks-on-ec2-to-cw
 icon: https://raw.githubusercontent.com/aws/eks-charts/master/docs/logo/aws.png
 sources:
-  - https://github.com/aws-observability/aws-otel-community/adot-eks-on-ec2-to-cw
+  - https://github.com/aws-observability/aws-otel-helm-charts/adot-eks-on-ec2-to-cw

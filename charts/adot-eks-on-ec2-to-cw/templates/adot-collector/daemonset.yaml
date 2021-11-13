@@ -1,5 +1,5 @@
-# ADOT Collector as a DaemonSet for deployment.
 {{- if .Values.adotCollector.daemonSet.enabled }}
+# ADOT Collector as a DaemonSet for deployment.
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:

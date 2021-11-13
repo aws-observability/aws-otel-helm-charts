@@ -1,5 +1,5 @@
-# ConfigMap for Fargate logging with the specified configurations, including configured values from values.yaml.
 {{- if .Values.fargateLog.enabled }}
+# ConfigMap for Fargate logging with the specified configurations, including configured values from values.yaml.
 kind: ConfigMap
 apiVersion: v1
 metadata:

@@ -1,5 +1,5 @@
-# Specify namespace for Fluent Bit.
 {{- if .Values.fluentbit.enabled }}
+# Specify namespace for Fluent Bit.
 apiVersion: v1
 kind: Namespace
 metadata:

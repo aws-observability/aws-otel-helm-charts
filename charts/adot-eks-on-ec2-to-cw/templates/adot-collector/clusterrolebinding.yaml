@@ -1,5 +1,5 @@
-# ClusterRoleBinding for ADOT Collector as a DaemonSet references and grants permissions defined in ClusterRole to service accounts/users/groups in subjects.
 {{- if .Values.adotCollector.daemonSet.enabled }}
+# ClusterRoleBinding for ADOT Collector as a DaemonSet references and grants permissions defined in ClusterRole to service accounts/users/groups in subjects.
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:

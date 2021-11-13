@@ -1,5 +1,5 @@
-# ConfigMap for Fluent Bit with the specified configurations, including configured values from values.yaml.
 {{- if .Values.fluentbit.enabled }}
+# ConfigMap for Fluent Bit with the specified configurations, including configured values from values.yaml.
 apiVersion: v1
 kind: ConfigMap
 metadata:

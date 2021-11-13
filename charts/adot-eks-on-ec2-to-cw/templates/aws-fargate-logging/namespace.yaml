@@ -1,5 +1,5 @@
-# Specify namespace for Fargate logging.
 {{- if .Values.fargateLog.enabled }}
+# Specify namespace for Fargate logging.
 kind: Namespace
 apiVersion: v1
 metadata:

@@ -9,7 +9,7 @@ information to effectively respond to your bug report or contribution.
 
 ## Reporting Bugs/Feature Requests
 
-We welcome you to use the [GitHub issue tracker](https://github.com/aws-observability/aws-otel-community/issues) to report bugs or suggest features.
+We welcome you to use the [GitHub issue tracker](https://github.com/aws-observability/aws-otel-helm-charts/issues) to report bugs or suggest features.
 
 When filing an issue, please check existing open, or recently closed, issues to make sure somebody else hasn't already
 reported the issue. Please try to include as much information as you can. Details like these are incredibly useful:
@@ -21,7 +21,7 @@ reported the issue. Please try to include as much information as you can. Detail
 
 
 ## Contributing via Pull Requests
-Contributions via [pull requests](https://github.com/aws-observability/aws-otel-community/pulls) are much appreciated. Before sending us a pull request, please ensure that:
+Contributions via [pull requests](https://github.com/aws-observability/aws-otel-helm-charts/pulls) are much appreciated. Before sending us a pull request, please ensure that:
 
 1. You are working against the latest source on the *main* branch.
 2. You check existing open, and recently merged, pull requests to make sure someone else hasn't addressed the problem already.

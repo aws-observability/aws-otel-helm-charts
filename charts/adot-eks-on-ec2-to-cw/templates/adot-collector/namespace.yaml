@@ -1,5 +1,5 @@
-# Specify namespace for ADOT Collector as a DaemonSet.
 {{- if .Values.adotCollector.daemonSet.enabled }}
+# Specify namespace for ADOT Collector as a DaemonSet.
 apiVersion: v1
 kind: Namespace
 metadata:
