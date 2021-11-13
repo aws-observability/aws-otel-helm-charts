@@ -66,7 +66,7 @@ The following prerequisites need to be set up in order to install this Helm char
 
 Once Helm is set up properly, add this repo as follows:
 ```console
-$ helm repo add [REPO_NAME] https://TO_BE_RELEASED.github.io/adot-helm-eks-ec2
+$ helm repo add [REPO_NAME] https://TO_BE_RELEASED.github.io/aws-otel-helm-charts
 $ helm search repo [REPO_NAME] # Run this command in order to see the charts.
 ```
 
