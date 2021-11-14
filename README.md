@@ -1,48 +1,24 @@
-## AWS Observability Build Repo
+# AWS Distro for OpenTelemetry Helm Charts
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-This repo is for all release builds that will also generate Docker images and other artifacts that will be published to Amazon ECR and other container or package registries.
+## Introduction
+The AWS Distro for OpenTelemetry (ADOT) Helm Charts repository currently contains a [Helm](https://helm.sh/) chart to provide easy to operate, end-to-end  [AWS Elastic Kubernetes Service](https://aws.amazon.com/eks/) (EKS) on [AWS Elastic Compute Cloud](https://aws.amazon.com/ec2/) (EC2) monitoring with [AWS Distro for OpenTelemetry(ADOT) collector](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html) for metrics and [Fluent Bit](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html) for logs.
+Therefore, this Helm chart is useful for customers who use EKS on EC2 and want to collect metrics and logs to send to Amazon CloudWatch Container Insights.
 
-## Compliance and Security
+## Getting Started
 
-* Before publishing any images, open source and security approvals are mandatory.
+[Helm](https://helm.sh/) must be installed to use the chart. Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
 
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+Once Helm is set up properly, add this repo as follows:
+```console
+$ helm repo add aws-observability https://TO_BE_RELEASED.github.io/aws-otel-helm-charts
+$ helm search repo aws-observability # Run this command in order to see the charts.
+```
 
-## Workflow Usage Instructions
+## Contributing
 
-### public-ecr-image-build-and-push
-
-This workflow can be used to deploy any aws-observability ECR image. It uses a `workflow_dispatch` event and can hence be manually triggered.
-The following variables must be specified when triggering:
-
-* Image version (eg. `v0.5.0`)
-* Name of the ECR Repo to push image to (eg. `aws-otel-collector`)
-* Name of the github organization and repository where the code is hosted (eg. `aws-observability/aws-otel-collector`)
-* Path within repository containing Dockerfile and optional ECR_REPO file (default is `.`)
-
-For any ECR image to push successfully, the following conditions must be met:
-
-1. ECR repository specification:
-
-* Either the name of the ECR Repo must match the name of the github repository (eg. `aws-observability/aws-otel-collector` pushes to ECR repository `aws-otel-collector`)
-
-OR 
-
-* The github repository contains a file called ECR_REPO in the same directory containing the Dockerfile, and this file contains only the name of the ECR repository to push to. (eg. `aws-observability/aws-otel-community` contains a sample app in directory `sample-apps/prometheus`. Within this directory exists the code for the sample app, a Dockerfile, and an ECR_REPO file which contains the string `prometheus-sample-app`. This pushes the code into the `prometheus-sample-app` ECR repository)
-
-2. Release AWS Credentials must be set up as secrets within this repository. The naming convention is as follows:
-
-* AWS Access Key must be stored in secret RELEASE_{{ECR_REPO_NAME_IN_CAPS_AND_UNDERSCORES}}_KEY_ID
-* AWS Secret Access Key myst be stored in secret RELEASE_{{ECR_REPO_NAME_IN_CAPS_AND_UNDERSCORES}}_SECRET
-
-These AWS credentials must be set up and be restricted to only be able to push images into one ECR repository.
-
-Examples:
-
-* `aws-otel-collector` has the following secrets configured: RELEASE_AWS_OTEL_COLLECTOR_KEY_ID, RELEASE_AWS_OTEL_COLLECTOR_SECRET
-* `aws-sigv4-proxy` has the following secrets configured: RELEASE_AWS_SIGV4_PROXY_KEY_ID, RELEASE_AWS_SIGV4_PROXY_SECRET
+See [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 
 ## License
 
-This project is licensed under the Apache-2.0 License.
-
+This project is licensed under the Apache 2.0 License.
