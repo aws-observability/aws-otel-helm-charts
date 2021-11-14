@@ -26,7 +26,7 @@ adot-eks-on-ec2-to-cw/
 |   |-- aws-fargate-logging/
 |   |   |-- configmap.yaml
 |   |   |-- namespace.yaml
-|   |-- aws-otel-collector/
+|   |-- adot-collector/
 |   |   |-- _helpers.tpl
 |   |   |-- clusterrole.yaml
 |   |   |-- clusterrolebinding.yaml
@@ -40,6 +40,7 @@ adot-eks-on-ec2-to-cw/
 |-- values.schema.json
 |-- values.yaml
 |-- Makefile
+|-- README.md
 ```
 
 `templates` folder contains two subfolders, `aws-for-fluent-bit` and `aws-otel-collector`, and each subfolder contains template files that will be evaluated with the default values configured in `values.yaml.`
