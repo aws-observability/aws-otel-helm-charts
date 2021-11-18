@@ -52,7 +52,7 @@ adot-eks-on-ec2-to-cw/
 
 `_helpers.tpl` files are used to define GO template helpers to create name variables.
 
-## Prerequisite
+## Prerequisites
 
 The following prerequisites need to be set up in order to install this Helm chart.
 
