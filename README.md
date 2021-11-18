@@ -25,3 +25,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 This project is licensed under the Apache 2.0 License.
 
 # Maintainers
+
+- [Alolita Sharma](https://github.com/alolita)
+- [Hyunuk Lim](https://github.com/hyunuk)
+- [James Park](https://github.com/JamesJHPark)

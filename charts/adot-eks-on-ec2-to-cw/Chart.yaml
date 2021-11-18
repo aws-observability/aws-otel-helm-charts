@@ -1,6 +1,6 @@
 apiVersion: v2
-name: adot-eks-on-ec2-to-cw
-description: adot-eks-on-ec2-to-cw collects metrics using ADOT Collector and logs using Fluent bit agent.
+name: adot-exporter-for-eks-on-ec2
+description: A Helm chart for collecting metrics using ADOT Collector and logs using Fluent Bit to send to AWS monitoring services.
 type: application
 version: 0.0.1
 appVersion: "0.1.0"
@@ -10,7 +10,8 @@ maintainers:
     email: hyunuk@amazon.com
   - name: James Park
     email: jamesjhp@amazon.com
+  - name: Alolita Sharma
+    email: alolitas@amazon.com
 home: https://github.com/aws-observability/aws-otel-helm-charts/adot-eks-on-ec2-to-cw
-icon: https://raw.githubusercontent.com/aws/eks-charts/master/docs/logo/aws.png
 sources:
   - https://github.com/aws-observability/aws-otel-helm-charts/adot-eks-on-ec2-to-cw
