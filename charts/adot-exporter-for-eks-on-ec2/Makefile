@@ -6,15 +6,15 @@ REPO_ROOT ?= $(shell git rev-parse --show-toplevel)
 all: validate lint
 
 install-tools:
-	${REPO_ROOT}/charts/adot-eks-on-ec2-to-cw/scripts/install-tools.sh
+	${REPO_ROOT}/charts/adot-exporter-for-eks-on-ec2/scripts/install-tools.sh
 
 .PHONY: validate
 validate:
-	${REPO_ROOT}/charts/adot-eks-on-ec2-to-cw/scripts/validate-charts.sh
+	${REPO_ROOT}/charts/adot-exporter-for-eks-on-ec2/scripts/validate-charts.sh
 
 .PHONY: lint
 lint:
-	${REPO_ROOT}/charts/adot-eks-on-ec2-to-cw/scripts/lint-charts.sh
+	${REPO_ROOT}/charts/adot-exporter-for-eks-on-ec2/scripts/lint-charts.sh
 
 .PHONY: clean
 clean:

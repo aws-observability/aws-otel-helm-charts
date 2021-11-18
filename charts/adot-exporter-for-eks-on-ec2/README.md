@@ -7,7 +7,7 @@ The Helm chart configured in this repository deploys the ADOT Collector and Flue
 
 ## Helm Chart Structure
 ```console
-adot-eks-on-ec2-to-cw/
+adot-exporter-for-eks-on-ec2/
 |-- scripts/ 
 |   |-- install-tools.sh
 |   |-- lint-charts.sh
@@ -66,7 +66,7 @@ The following prerequisites need to be set up in order to install this Helm char
 
 Once Helm is set up properly, add this repo as follows:
 ```console
-$ helm repo add [REPO_NAME] https://TO_BE_RELEASED.github.io/aws-otel-helm-charts
+$ helm repo add [REPO_NAME] https://aws-observability.github.io/aws-otel-helm-charts
 $ helm search repo [REPO_NAME] # Run this command in order to see the charts.
 ```
 
@@ -74,7 +74,7 @@ $ helm search repo [REPO_NAME] # Run this command in order to see the charts.
 
 ```console
 $ helm install \
-  [RELEASE_NAME] [REPO_NAME]/adot-eks-on-ec2-to-cw \
+  [RELEASE_NAME] [REPO_NAME]/adot-exporter-for-eks-on-ec2 \
   --set clusterName=[CLUSTER_NAME] --set awsRegion=[AWS_REGION]
 ```
 `CLUSTER_NAME` and `AWS_REGION` must be specified with your own EKS cluster and the region.
@@ -103,7 +103,7 @@ If you see these four running pods, two for Fluent Bit and two for ADOT Collecto
 ### Verify the Helm chart works as expected
 - Run chart validation test and lint from`MakeFile`.
 ```console
-$ cd adot-eks-on-ec2-to-cw
+$ cd adot-exporter-for-eks-on-ec2
 $ make install-tools # required initially
 $ make all           # to run chart validation test and lint 
 ```
@@ -130,7 +130,7 @@ $ make all           # to run chart validation test and lint
 To see all configurable options with detailed comments:
 
 ```console
-$ helm show values [REPO_NAME]/adot-eks-on-ec2-to-cw
+$ helm show values [REPO_NAME]/adot-exporter-for-eks-on-ec2
 ```
 
 By changing values in `values.yaml`, you are able to customize the chart to use your preferred configuration.
@@ -145,7 +145,7 @@ In order to deploy the ADOT Collector in Sidecar mode using the Helm chart, 1) u
 
 ```console
 $ helm install \
-  [RELEASE_NAME] [REPO_NAME]/adot-eks-on-ec2-to-cw \
+  [RELEASE_NAME] [REPO_NAME]/adot-exporter-for-eks-on-ec2 \
   --set clusterName=[CLUSTER_NAME] --set awsRegion=[AWS_REGION] \
   --set adotCollector.daemonSet.enabled=false --set adotCollector.sidecar.enabled=true
 ```
@@ -186,7 +186,7 @@ please refer to the user guide for [Fargate logging](https://docs.aws.amazon.com
 This is an example of using the Helm chart for Fargate logging with the `sample-app.yaml` from [Fargate logging](https://docs.aws.amazon.com/eks/latest/userguide/fargate-logging.html).
 ```console
 $ helm install \
-  [RELEASE_NAME] [REPO_NAME]/adot-eks-on-ec2-to-cw \
+  [RELEASE_NAME] [REPO_NAME]/adot-exporter-for-eks-on-ec2 \
   --set clusterName=[CLUSTER_NAME] --set awsRegion=[AWS_REGION] \
   --set fargateLogging.enabled=true
 ```
@@ -220,7 +220,7 @@ $ helm uninstall [RELEASE_NAME]
 ## Upgrade Chart
 
 ```console
-$ helm upgrade [RELEASE_NAME] [REPO_NAME]/adot-eks-on-ec2-to-cw
+$ helm upgrade [RELEASE_NAME] [REPO_NAME]/adot-exporter-for-eks-on-ec2
 ```
 
 ## Contributing
