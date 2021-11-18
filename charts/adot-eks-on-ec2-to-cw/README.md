@@ -3,7 +3,7 @@
 
 This [Helm](https://helm.sh/) chart provides easy to use [AWS Elastic Kubernetes Service](https://aws.amazon.com/eks/) (EKS) on [AWS Elastic Compute Cloud](https://aws.amazon.com/ec2/) (EC2) monitoring with [AWS Distro for OpenTelemetry(ADOT) Collector](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html) for metrics and [Fluent Bit](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html) for logs. Therefore, the Helm chart is useful for customers who use EKS on EC2 and want to collect metrics and logs to send to Amazon CloudWatch Container Insights.
 
-The Helm chart configured in this repository deploys the ADOT Collector and Fluent Bit as DaemonSets and is ready to collect metrics and logs and send them to Amazon CloudWatch Container Insights.
+The Helm chart configured in this repository deploys the ADOT Collector and Fluent Bit as [DaemonSets](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/) and is ready to collect metrics and logs and send them to Amazon CloudWatch Container Insights.
 
 ## Helm Chart Structure
 ```console
