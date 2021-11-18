@@ -1,10 +1,9 @@
-# ADOT Helm chart for EKS on EC2 metrics and logs to CW Container Insights
+# ADOT Helm chart for EKS on EC2 metrics and logs to Amazon CloudWatch Container Insights
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-This [Helm](https://helm.sh/) chart provides easy to operate, end-to-end  [AWS Elastic Kubernetes Service](https://aws.amazon.com/eks/) (EKS) on [AWS Elastic Compute Cloud](https://aws.amazon.com/ec2/) (EC2) monitoring with [AWS Distro for OpenTelemetry(ADOT) collector](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html) for metrics and [Fluent Bit](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html) for logs.
-Therefore, the Helm chart is useful for customers who use EKS on EC2 and want to collect metrics and logs to send to Amazon CloudWatch Container Insights.
+This [Helm](https://helm.sh/) chart provides easy to use [AWS Elastic Kubernetes Service](https://aws.amazon.com/eks/) (EKS) on [AWS Elastic Compute Cloud](https://aws.amazon.com/ec2/) (EC2) monitoring with [AWS Distro for OpenTelemetry(ADOT) Collector](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html) for metrics and [Fluent Bit](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html) for logs. Therefore, the Helm chart is useful for customers who use EKS on EC2 and want to collect metrics and logs to send to Amazon CloudWatch Container Insights.
 
-The Helm chart configured in this repository deploys ADOT Collector and Fluent Bit as DaemonSets and is ready to collect metrics and logs and send them to Amazon CloudWatch Container Insights.
+The Helm chart configured in this repository deploys the ADOT Collector and Fluent Bit as DaemonSets and is ready to collect metrics and logs and send them to Amazon CloudWatch Container Insights.
 
 ## Helm Chart Structure
 ```console
@@ -99,7 +98,7 @@ amzn-cloudwatch-metrics  adot-collector-daemonset-7nrst   1/1     Running   0   
 amzn-cloudwatch-metrics  adot-collector-daemonset-x7n8x   1/1     Running   0          4s
 ```
 
-If you see these four running pods, two for Fluent Bit and two for ADOT Collector as DaemonSets within the specified namespaces, they are successfully deployed.
+If you see these four running pods, two for Fluent Bit and two for ADOT Collector as [DaemonSets](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/) within the specified namespaces, they are successfully deployed.
 
 ### Verify the Helm chart works as expected
 - Run chart validation test and lint from`MakeFile`.
@@ -138,9 +137,10 @@ By changing values in `values.yaml`, you are able to customize the chart to use 
 
 Following options are some useful configurations that can be applied to this Helm chart.
 
-### Deploy ADOT Collector as Sidecar
+### Deploy ADOT Collector as a Sidecar
 
-Sidecar is a microservice design pattern where a companion service runs next to your primary microservice, augmenting its abilities or intercepting resources it is utilizing. The sidecar pattern would be the best fit for a single application monitoring.
+A sidecar is a microservice design pattern where a companion service runs next to your primary microservice, augmenting its abilities or intercepting resources it is utilizing. The sidecar pattern would be the best fit for a single application monitoring.
+
 In order to deploy the ADOT Collector in Sidecar mode using the Helm chart, 1) update `sidecar.yaml` and `values.yaml` files in the Helm chart with the application configurations and 2) include the use of `--set` flag in the `helm install` command from [Install Chart](#install-chart).
 
 ```console
@@ -233,7 +233,7 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
 [James Park](https://github.com/JamesJHPark)
 
-## Further Information
+## Other useful links
 
 [Set up Fluent Bit as a DaemonSet to send logs to CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html)
 
