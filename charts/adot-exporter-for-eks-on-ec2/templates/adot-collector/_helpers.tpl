@@ -35,21 +35,27 @@ Create chart name and version as used by the chart label.
 {{/*
 Common labels
 */}}
-{{- define "adotCollector.daemonSet.labels" -}}
+{{- define "adotCollector.daemonSet.labels" }}
 helm.sh/chart: {{ include "adotCollector.daemonSet.chart" . }}
-{{ include "adotCollector.daemonSet.selectorLabels" . }}
+{{- include "adotCollector.daemonSet.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
+app.kubernetes.io/component: opentelemetry
+app.kubernetes.io/part-of: {{ template "adotCollector.daemonSet.name" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- end -}}
+{{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels }}
+{{- end }}
+{{- end }}
 
 {{/*
 Selector labels
 */}}
-{{- define "adotCollector.daemonSet.selectorLabels" -}}
+{{- define "adotCollector.daemonSet.selectorLabels" }}
 app.kubernetes.io/name: {{ include "adotCollector.daemonSet.name" . }}
-{{- end -}}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
 
 {{/*
 Create the name of the service account to use

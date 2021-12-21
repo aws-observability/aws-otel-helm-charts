@@ -6,4 +6,5 @@ metadata:
   name: {{ .Values.fargateLog.namespace }}
   labels:
     aws-observability: {{ .Values.fargateLog.awsObservability }}
+    {{- include "aws-fargate-logging.labels" . | indent 4 }}
 {{- end }}

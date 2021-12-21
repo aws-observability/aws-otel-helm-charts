@@ -6,4 +6,5 @@ metadata:
   name: {{ include "adotCollector.daemonSet.namespace" . }}
   labels:
     name: {{ include "adotCollector.daemonSet.namespace" . }}
+    {{- include "adotCollector.daemonSet.labels" . | indent 4 }}
 {{- end }}

@@ -7,6 +7,7 @@ metadata:
   namespace: {{ .Values.adotCollector.sidecar.namespace }}
   labels:
     name: {{ .Values.adotCollector.sidecar.name }}
+    {{- include "adotCollector.daemonSet.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.adotCollector.sidecar.replicas }}
   selector:
@@ -16,6 +17,7 @@ spec:
     metadata:
       labels:
         name: {{ .Values.adotCollector.sidecar.name }}
+        {{- include "adotCollector.daemonSet.labels" . | indent 8 }}
     spec:
       containers:
         - name: "{{ .Values.adotCollector.sidecar.image.name }}"

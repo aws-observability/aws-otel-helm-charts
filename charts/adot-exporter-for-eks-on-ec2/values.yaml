@@ -4,6 +4,11 @@ global:
   namespaceOverride: ""
 awsRegion: ""
 clusterName: ""
+
+# -- Additional labels to add into metadata
+additionalLabels: #{}
+  # app: adot
+
 serviceAccount:
   create: true
   annotations: {}
@@ -146,7 +151,7 @@ fluentbit:
     readFromTail: "On"
 
 fargateLog:
-  enabled: false
+  enabled: true
   name: "aws-logging"
   namespace: "aws-observability"
   awsObservability: "enabled"

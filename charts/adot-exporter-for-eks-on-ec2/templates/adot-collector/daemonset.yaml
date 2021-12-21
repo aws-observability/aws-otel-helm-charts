@@ -5,14 +5,18 @@ kind: DaemonSet
 metadata:
   name: {{ .Values.adotCollector.daemonSet.daemonSetName }}
   namespace: {{ .Values.adotCollector.daemonSet.namespace }}
+  labels:
+    {{- include "adotCollector.daemonSet.labels" . | indent 4 }}
 spec:
   selector:
     matchLabels:
       name: {{ .Values.adotCollector.daemonSet.daemonSetName }}
+      {{- include "adotCollector.daemonSet.selectorLabels" . | indent 6 }}
   template:
     metadata:
       labels:
         name: {{ .Values.adotCollector.daemonSet.daemonSetName }}
+        {{- include "adotCollector.daemonSet.labels" . | indent 8 }}
     spec:
       containers:
         - name: {{ .Values.adotCollector.daemonSet.containersName }}

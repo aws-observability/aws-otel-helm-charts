@@ -9,16 +9,19 @@ metadata:
     k8s-app: {{ .Values.fluentbit.name }}
     version: v1
     kubernetes.io/cluster-service: "true"
+    {{- include "aws-for-fluent-bit.labels" . | indent 4 }}
 spec:
   selector:
     matchLabels:
       k8s-app: {{ .Values.fluentbit.name }}
+      {{- include "aws-for-fluent-bit.selectorLabels" . | indent 6 }}
   template:
     metadata:
       labels:
         k8s-app: {{ .Values.fluentbit.name }}
         version: v1
         kubernetes.io/cluster-service: "true"
+        {{- include "aws-for-fluent-bit.labels" . | indent 8 }}
     spec:
       containers:
       - name: {{ .Values.fluentbit.name }}
