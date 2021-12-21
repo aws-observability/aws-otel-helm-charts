@@ -127,7 +127,7 @@ data:
     [FILTER]
         Name                aws
         Match               dataplane.*
-        imds_version        {{ .Values.fluentbit.imds }}
+        imds_version        {{ .Values.fluentbit.imdsVersion }}
 
     [OUTPUT]
         Name                cloudwatch_logs
