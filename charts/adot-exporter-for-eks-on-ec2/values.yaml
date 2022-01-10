@@ -151,7 +151,7 @@ fluentbit:
     readFromTail: "On"
 
 fargateLog:
-  enabled: true
+  enabled: false
   name: "aws-logging"
   namespace: "aws-observability"
   awsObservability: "enabled"
