@@ -6,7 +6,7 @@ awsRegion: ""
 clusterName: ""
 
 # -- Additional labels to add into metadata
-additionalLabels: #{}
+additionalLabels: {}
   # app: adot
 
 serviceAccount:
