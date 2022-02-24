@@ -179,7 +179,9 @@ adotCollector:
   daemonSet:
     enabled: true
     daemonSetName: "adot-collector-daemonset"
-    namespace: "amzn-cloudwatch-metrics"
+    namespace: "amzn-metrics"
+    cloudWatchEnabled: true
+    ampEnabled: true
     namespaceOverride: ""
     serviceAccount:
       create: true
@@ -260,14 +262,14 @@ adotCollector:
         mountPath: "/conf"
     extensions:
       healthCheck: ""
-    receivers:
+    cwreceivers:
       collectionInterval: ""
       containerOrchestrator: ""
       addServiceAsAttribute: ""
       preferFullPodName: ""
-    processors:
+    cwprocessors:
       timeout: 60s
-    exporters:
+    cwexporters:
       namespace: "ContainerInsights"
       logGroupName: ""
       logStreamName: "InputNodeName"
@@ -331,11 +333,18 @@ adotCollector:
       - dimensions: [[Namespace, ClusterName], [ClusterName]]
         metric_name_selectors:
           - namespace_number_of_running_pods
+    ampreceivers:
+      scrapeInterval: 15
+      scrapeTimeout: 10
+    ampexporters:
+      endpoint: ""
+      region: ""
+      service: "aps"
     service:
       metrics:
-        receivers: ["awscontainerinsightreceiver"]
+        receivers: ["awscontainerinsightreceiver", "prometheus"]
         processors: ["batch/metrics"]
-        exporters: ["awsemf"]
+        exporters: ["awsemf", "awsprometheusremotewrite"]
       extensions: ["health_check"]
 
   sidecar:

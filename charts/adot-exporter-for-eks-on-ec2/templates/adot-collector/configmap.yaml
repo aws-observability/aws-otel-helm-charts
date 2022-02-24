@@ -14,30 +14,75 @@ data:
       health_check: {{ .Values.adotCollector.daemonSet.extensions.healthCheck }}
     receivers:
       awscontainerinsightreceiver:
-        collection_interval: {{ .Values.adotCollector.daemonSet.receivers.collectionInterval }}
-        container_orchestrator: {{ .Values.adotCollector.daemonSet.receivers.containerOrchestrator }}
-        add_service_as_attribute: {{ .Values.adotCollector.daemonSet.receivers.addServiceAsAttribute }}
-        prefer_full_pod_name: {{ .Values.adotCollector.daemonSet.receivers.preferFullPodName }}
+        collection_interval: {{ .Values.adotCollector.daemonSet.cwreceivers.collectionInterval }}
+        container_orchestrator: {{ .Values.adotCollector.daemonSet.cwreceivers.containerOrchestrator }}
+        add_service_as_attribute: {{ .Values.adotCollector.daemonSet.cwreceivers.addServiceAsAttribute }}
+        prefer_full_pod_name: {{ .Values.adotCollector.daemonSet.cwreceivers.preferFullPodName }}
+      prometheus:
+        config:
+          global:
+            scrape_interval: {{ .Values.adotCollector.daemonSet.ampreceivers.scrapeInterval}}
+            scrape_timeout: {{ .Values.adotCollector.daemonSet.ampreceivers.scrapeTimeout}}
+          scrape_configs:
+            - job_name: 'storefront'
+              sample_limit: 10000
+              metrics_path: /metrics
+              kubernetes_sd_configs:
+                - role: pod
+              relabel_configs:
+                - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+                  action: keep
+                  regex: true
+                - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+                  action: replace
+                  regex: (.+)
+                  target_label: __metrics_path__
+                - source_labels: [__address__]
+                  action: replace
+                  regex: ([^:]+)(?::\d+)?;(\d+)
+                  replacement: $1:$2
+                  target_label: __address__
+                - action: labelmap
+                  regex: __meta_kubernetes_pod_label_(.+)
+                - source_labels: [__meta_kubernetes_namespace]
+                  action: replace
+                  target_label: EKS_Namespace
+                - source_labels: [__meta_kubernetes_pod_name]
+                  action: replace
+                  target_label: EKS_PodName
+                - source_labels: [__meta_kubernetes_pod_container_name]
+                  action: replace
+                  target_label: EKS_Container
     processors:
       batch/metrics:
-        timeout: {{ .Values.adotCollector.daemonSet.processors.timeout }}
+        timeout: {{ .Values.adotCollector.daemonSet.cwprocessors.timeout }}
     exporters:
       awsemf:
-        namespace: {{ .Values.adotCollector.daemonSet.exporters.namespace }}
+        namespace: {{ .Values.adotCollector.daemonSet.cwexporters.namespace }}
         log_group_name: '/aws/containerinsights/{{ .Values.clusterName }}/performance'
-        log_stream_name: {{ .Values.adotCollector.daemonSet.exporters.logStreamName }}
+        log_stream_name: {{ .Values.adotCollector.daemonSet.cwexporters.logStreamName }}
         resource_to_telemetry_conversion:
-          enabled: {{ .Values.adotCollector.daemonSet.exporters.enabled }}
-        dimension_rollup_option: {{ .Values.adotCollector.daemonSet.exporters.dimensionRollupOption }}
-        parse_json_encoded_attr_values: {{- range .Values.adotCollector.daemonSet.exporters.parseJsonEncodedAttrValues }}
+          enabled: {{ .Values.adotCollector.daemonSet.cwexporters.enabled }}
+        dimension_rollup_option: {{ .Values.adotCollector.daemonSet.cwexporters.dimensionRollupOption }}
+        parse_json_encoded_attr_values: {{- range .Values.adotCollector.daemonSet.cwexporters.parseJsonEncodedAttrValues }}
         - {{.}}{{- end }}
         metric_declarations:
           {{ .Values.adotCollector.daemonSet.metricDeclarations | nindent 10 }}
+      awsprometheusremotewrite:
+        endpoint: {{ .Values.adotCollector.daemonSet.ampexporters.endpoint}}
+        aws_auth:
+          region: {{ .Values.adotCollector.daemonSet.ampexporters.region}}
+          service: {{ .Values.adotCollector.daemonSet.ampexporters.service}}
+        
     service:
       pipelines:
         metrics:
-          receivers: {{- range .Values.adotCollector.daemonSet.service.metrics.receivers }}
+          receivers: {{- if .Values.adotCollector.daemonSet.cwEnabled and .Values.adotCollector.daemonSet.ampEnabled}}
+          {{- range .Values.adotCollector.daemonSet.service.metrics.receivers }}
           - {{.}}{{- end }}
+          {{- else if eq Values.adotCollector.daemonSet.ampEnabled False}}
+          {{- range .Values.adotCollector.daemonSet.service.metrics.receivers}}
+          {{- end}}
           processors: {{- range .Values.adotCollector.daemonSet.service.metrics.processors }}
           - {{.}}{{- end }}
           exporters: {{- range .Values.adotCollector.daemonSet.service.metrics.exporters }}
