@@ -55,7 +55,7 @@ data:
                   target_label: EKS_Container
     processors:
       batch/metrics:
-        timeout: {{ .Values.adotCollector.daemonSet.cwprocessors.timeout }}
+        timeout: {{ .Values.adotCollector.daemonSet.processors.timeout }}
     exporters:
       awsemf:
         namespace: {{ .Values.adotCollector.daemonSet.cwexporters.namespace }}
@@ -77,16 +77,24 @@ data:
     service:
       pipelines:
         metrics:
-          receivers: {{- if .Values.adotCollector.daemonSet.cwEnabled and .Values.adotCollector.daemonSet.ampEnabled}}
-          {{- range .Values.adotCollector.daemonSet.service.metrics.receivers }}
-          - {{.}}{{- end }}
-          {{- else if eq Values.adotCollector.daemonSet.ampEnabled False}}
-          {{- range .Values.adotCollector.daemonSet.service.metrics.receivers}}
-          {{- end}}
+          {{- if eq .Values.adotCollector.daemonSet.cwEnabled False }}
+          receivers: {{ .Values.adotCollector.daemonSet.service.metrics.ampreceiver}}
           processors: {{- range .Values.adotCollector.daemonSet.service.metrics.processors }}
-          - {{.}}{{- end }}
+          - {{.}} {{- end }}
+          exporters: {{ .Values.adotCollector.daemonSet.service.metrics.ampexporter }}
+          {{- else if eq Values.adotCollector.daemonSet.ampEnabled False }}
+          receivers: {{ .Values.adotCollector.daemonSet.service.metrics.cwreceiver }}
+          processors: {{- range .Values.adotCollector.daemonSet.service.metrics.processors }}
+          - {{.}} {{- end }}
+          exporters: {{ .Values.adotCollector.daemonSet.service.metrics.cwexporter }}
+          {{- else }}
+          receivers: {{- range .Values.adotCollector.daemonSet.service.metrics.receivers }}
+          - {{.}} {{- end }}
+          processors: {{- range .Values.adotCollector.daemonSet.service.metrics.processors }}
+          - {{.}} {{- end }}
           exporters: {{- range .Values.adotCollector.daemonSet.service.metrics.exporters }}
-          - {{.}}{{- end }}
+          - {{.}} {{- end }}
+          {{- end}}
       extensions: {{- range .Values.adotCollector.daemonSet.service.extensions }}
-      - {{.}}{{- end }}
+      - {{.}} {{- end }}
 {{- end }}

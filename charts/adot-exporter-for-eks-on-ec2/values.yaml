@@ -267,7 +267,7 @@ adotCollector:
       containerOrchestrator: ""
       addServiceAsAttribute: ""
       preferFullPodName: ""
-    cwprocessors:
+    processors:
       timeout: 60s
     cwexporters:
       namespace: "ContainerInsights"
@@ -343,8 +343,12 @@ adotCollector:
     service:
       metrics:
         receivers: ["awscontainerinsightreceiver", "prometheus"]
+        cwreceiver: "awscontainerinsightreceiver"
+        ampreceiver: "prometheus"
         processors: ["batch/metrics"]
         exporters: ["awsemf", "awsprometheusremotewrite"]
+        cwexporter: "awsemf"
+        ampexporter: "awsprometheusremotewrite"
       extensions: ["health_check"]
 
   sidecar:
