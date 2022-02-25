@@ -334,11 +334,11 @@ adotCollector:
         metric_name_selectors:
           - namespace_number_of_running_pods
     ampreceivers:
-      scrapeInterval: 15
-      scrapeTimeout: 10
+      scrapeInterval: 15s
+      scrapeTimeout: 10s
     ampexporters:
-      endpoint: ""
-      region: ""
+      endpoint: "https://aps-workspaces.us-west-2.amazonaws.com/workspaces/ws-d18949af-dfec-4d07-b013-0cab497a176b/api/v1/remote_write"
+      region: "us-west-2"
       service: "aps"
     service:
       metrics:

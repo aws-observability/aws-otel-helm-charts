@@ -53,6 +53,7 @@ data:
                 - source_labels: [__meta_kubernetes_pod_container_name]
                   action: replace
                   target_label: EKS_Container
+
     processors:
       batch/metrics:
         timeout: {{ .Values.adotCollector.daemonSet.processors.timeout }}
@@ -77,12 +78,12 @@ data:
     service:
       pipelines:
         metrics:
-          {{- if eq .Values.adotCollector.daemonSet.cwEnabled False }}
-          receivers: {{ .Values.adotCollector.daemonSet.service.metrics.ampreceiver}}
+          {{- if eq .Values.adotCollector.daemonSet.cwEnabled false }}
+          receivers: {{ .Values.adotCollector.daemonSet.service.metrics.ampreceiver }}
           processors: {{- range .Values.adotCollector.daemonSet.service.metrics.processors }}
           - {{.}} {{- end }}
           exporters: {{ .Values.adotCollector.daemonSet.service.metrics.ampexporter }}
-          {{- else if eq Values.adotCollector.daemonSet.ampEnabled False }}
+          {{- else if eq .Values.adotCollector.daemonSet.ampEnabled false }}
           receivers: {{ .Values.adotCollector.daemonSet.service.metrics.cwreceiver }}
           processors: {{- range .Values.adotCollector.daemonSet.service.metrics.processors }}
           - {{.}} {{- end }}
