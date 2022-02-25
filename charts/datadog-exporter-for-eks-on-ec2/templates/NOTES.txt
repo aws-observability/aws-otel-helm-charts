@@ -1,0 +1,19 @@
+{{- if (not (eq .Values.adotCollector.daemonSet.exporters.datadog.api.key "<DATADOG_API_KEY>")) }}
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+
+To learn more about the release, try:
+
+  $ helm status {{ .Release.Name }}
+  $ helm get all {{ .Release.Name }}
+
+{{- else }}
+##############################################################################
+####               ERROR: You did not set a Datadog API Key               ####
+##############################################################################
+
+This deployment will be incomplete until you get your API key from Datadog.
+Please set your API key at 'adotCollector.daemonSet.exporters.datadog.api.key', 
+then upgrade the release.
+{{- end }}

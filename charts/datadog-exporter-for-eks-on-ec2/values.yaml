@@ -1,0 +1,145 @@
+nameOverride: ""
+fullnameOverride: ""
+global:
+  namespaceOverride: ""
+awsRegion: ""
+clusterName: ""
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+adotCollector:
+  image:
+    name: "aws-otel-collector"
+    repository: "amazon/aws-otel-collector"
+    tag: "v0.14.0"
+    daemonSetPullPolicy: "IfNotPresent"
+    sidecarPullPolicy: "Always"
+  daemonSet:
+    enabled: true
+    daemonSetName: "adot-collector-daemonset"
+    namespace: "datadog-adot-metrics"
+    namespaceOverride: ""
+    serviceAccount:
+      create: true
+      name: "adot-collector-sa"
+    clusterRoleName: "adot-collector-role"
+    clusterRoleBindingName: "adot-collector-role-binding"
+    datadogAPIKeySecretName: "datadog-secret-api-key"
+    configMap:
+      name: "adot-conf"
+      app: "opentelemetry"
+      component: "adot-conf"
+    containersName: "adot-collector-container"
+    env:
+      - name: "K8S_NODE_NAME"
+        valueFrom:
+          fieldRef:
+            fieldPath: "spec.nodeName"
+      - name: "HOST_IP"
+        valueFrom:
+          fieldRef:
+            fieldPath: "status.hostIP"
+      - name: "HOST_NAME"
+        valueFrom:
+          fieldRef:
+            fieldPath: "spec.nodeName"
+      - name: "K8S_NAMESPACE"
+        valueFrom:
+          fieldRef:
+            fieldPath: "metadata.namespace"
+    command:
+      - "/awscollector"
+      - "--config=/conf/adot-config.yaml"
+    resources:
+      limits:
+        cpu: "200m"
+        memory: "200Mi"
+      requests:
+        cpu: "200m"
+        memory: "200Mi"
+    volumes:
+      - configMap:
+          name: "adot-conf"
+          items:
+            - key: "adot-config"
+              path: "adot-config.yaml"
+        name: "adot-config-vol"
+      - name: "rootfs"
+        hostPath:
+          path: "/"
+      - name: "dockersock"
+        hostPath:
+          path: "/var/run/docker.sock"
+      - name: "varlibdocker"
+        hostPath:
+          path: "/var/lib/docker"
+      - name: "sys"
+        hostPath:
+          path: "/sys"
+      - name: "devdisk"
+        hostPath:
+          path: "/dev/disk/"
+    volumeMounts:
+      - name: "rootfs"
+        mountPath: "/rootfs"
+        readOnly: true
+      - name: "dockersock"
+        mountPath: "/var/run/docker.sock"
+        readOnly: true
+      - name: "varlibdocker"
+        mountPath: "/var/lib/docker"
+        readOnly: true
+      - name: "sys"
+        mountPath: "/sys"
+        readOnly: true
+      - name: "devdisk"
+        mountPath: "/dev/disk"
+        readOnly: true
+      - name: "adot-config-vol"
+        mountPath: "/conf"
+    extensions:
+      healthCheck: ""
+    receivers:
+      collectionInterval: ""
+      containerOrchestrator: ""
+      addServiceAsAttribute: ""
+      preferFullPodName: ""
+    processors:
+      timeout: 60s
+    exporters:
+      datadog:
+        api:
+          key: "<DATADOG_API_KEY>"
+          site: datadoghq.com
+        metrics:
+          resource_attributes_as_tags: true
+        use_resource_metadata: true
+      
+    service:
+      metrics:
+        receivers: ["awscontainerinsightreceiver"]
+        processors: ["batch/metrics", "resourcedetection/k8s"]
+        exporters: ["datadog"]
+      extensions: ["health_check"]
+
+  sidecar:
+    enabled: false
+    name: "adot-sidecar"
+    namespace: "adot-sidecar-namespace"
+    namespaceOverride: ""
+    regionS3: ""
+    replicas: 1
+    image:
+      name: ""
+      repository: ""
+      tag: ""
+      pullPolicy: ""
+    resources:
+      limits:
+        cpu: "256m"
+        memory: "512Mi"
+      requests:
+        cpu: "32m"
+        memory: "24Mi"

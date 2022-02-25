@@ -1,0 +1,9 @@
+{{- if .Values.adotCollector.sidecar.enabled }}
+# Specify namespace for ADOT Collector as a Sidecar.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ include "adotCollector.sidecar.namespace" . }}
+  labels:
+    name: {{ include "adotCollector.sidecar.namespace" . }}
+{{- end }}

@@ -1,0 +1,46 @@
+{{- if .Values.adotCollector.daemonSet.enabled }}
+# ADOT Collector as a DaemonSet for deployment.
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ .Values.adotCollector.daemonSet.daemonSetName }}
+  namespace: {{ .Values.adotCollector.daemonSet.namespace }}
+spec:
+  selector:
+    matchLabels:
+      name: {{ .Values.adotCollector.daemonSet.daemonSetName }}
+  template:
+    metadata:
+      labels:
+        name: {{ .Values.adotCollector.daemonSet.daemonSetName }}
+    spec:
+      containers:
+        - name: {{ .Values.adotCollector.daemonSet.containersName }}
+          image: "{{ .Values.adotCollector.image.repository }}:{{ .Values.adotCollector.image.tag }}"
+          imagePullPolicy: {{ .Values.adotCollector.image.daemonSetPullPolicy }}
+          env:
+            - name: DATADOG_INTERNAL_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.adotCollector.daemonSet.datadogAPIKeySecretName }}
+                  key: api-key
+                  optional: true
+            - name: "DATADOG_INTERNAL_K8S_NODE_NAME"
+              valueFrom:
+                fieldRef:
+                  fieldPath: "spec.nodeName"
+            - name: "OTEL_RESOURCE_ATTRIBUTES"
+              value: k8s.node.name=$(DATADOG_INTERNAL_K8S_NODE_NAME)
+            {{- with .Values.adotCollector.daemonSet.env }}
+            {{- . | toYaml | nindent 12 }}
+            {{- end }}
+          command:
+            {{- toYaml .Values.adotCollector.daemonSet.command | nindent 12}}
+          volumeMounts:
+            {{- toYaml .Values.adotCollector.daemonSet.volumeMounts | nindent 12 }}
+          resources:
+            {{- toYaml .Values.adotCollector.daemonSet.resources | nindent 12 }}
+      volumes:
+        {{- toYaml .Values.adotCollector.daemonSet.volumes | nindent 10 }}
+      serviceAccountName: {{ .Values.adotCollector.daemonSet.serviceAccount.name  }}
+{{- end }}
