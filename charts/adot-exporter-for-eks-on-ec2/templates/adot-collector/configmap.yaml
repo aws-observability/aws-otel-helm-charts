@@ -9,7 +9,7 @@ metadata:
     app: {{ .Values.adotCollector.daemonSet.configMap.app }}
     component: {{ .Values.adotCollector.daemonSet.configMap.component }}
 data:
-  adot-config: |
+  adot-config:  |
     extensions:
       health_check: {{ .Values.adotCollector.daemonSet.extensions.healthCheck }}
     receivers:
@@ -53,7 +53,6 @@ data:
                 - source_labels: [__meta_kubernetes_pod_container_name]
                   action: replace
                   target_label: EKS_Container
-
     processors:
       batch/metrics:
         timeout: {{ .Values.adotCollector.daemonSet.processors.timeout }}
@@ -70,29 +69,26 @@ data:
         metric_declarations:
           {{ .Values.adotCollector.daemonSet.metricDeclarations | nindent 10 }}
       awsprometheusremotewrite:
-        endpoint: {{ .Values.adotCollector.daemonSet.ampexporters.endpoint}}
+        namespace: {{ .Values.adotCollector.daemonSet.ampexporters.namespace }}
+        endpoint: {{ .Values.adotCollector.daemonSet.ampexporters.endpoint }}
+        # resource_to_telemetry_conversion: 
+        #   enabled: {{ .Values.adotCollector.daemonSet.ampexporters.resourcetotel }}
         aws_auth:
-          region: {{ .Values.adotCollector.daemonSet.ampexporters.region}}
-          service: {{ .Values.adotCollector.daemonSet.ampexporters.service}}
+          region: {{ .Values.adotCollector.daemonSet.ampexporters.region }}
+          service: {{ .Values.adotCollector.daemonSet.ampexporters.service }}
         
     service:
       pipelines:
         metrics:
-          {{- if eq .Values.adotCollector.daemonSet.cwEnabled false }}
-          receivers: {{ .Values.adotCollector.daemonSet.service.metrics.ampreceiver }}
-          processors: {{- range .Values.adotCollector.daemonSet.service.metrics.processors }}
-          - {{.}} {{- end }}
-          exporters: {{ .Values.adotCollector.daemonSet.service.metrics.ampexporter }}
-          {{- else if eq .Values.adotCollector.daemonSet.ampEnabled false }}
-          receivers: {{ .Values.adotCollector.daemonSet.service.metrics.cwreceiver }}
-          processors: {{- range .Values.adotCollector.daemonSet.service.metrics.processors }}
-          - {{.}} {{- end }}
-          exporters: {{ .Values.adotCollector.daemonSet.service.metrics.cwexporter }}
-          {{- else }}
           receivers: {{- range .Values.adotCollector.daemonSet.service.metrics.receivers }}
           - {{.}} {{- end }}
           processors: {{- range .Values.adotCollector.daemonSet.service.metrics.processors }}
           - {{.}} {{- end }}
+          {{- if eq .Values.adotCollector.daemonSet.cwEnabled false }}
+          exporters: {{ .Values.adotCollector.daemonSet.service.metrics.ampexporter }}
+          {{- else if eq .Values.adotCollector.daemonSet.ampEnabled false }}
+          exporters: {{ .Values.adotCollector.daemonSet.service.metrics.cwexporter }}
+          {{- else }}
           exporters: {{- range .Values.adotCollector.daemonSet.service.metrics.exporters }}
           - {{.}} {{- end }}
           {{- end}}
