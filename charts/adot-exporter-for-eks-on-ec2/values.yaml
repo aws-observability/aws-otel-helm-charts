@@ -336,6 +336,37 @@ adotCollector:
     ampreceivers:
       scrapeInterval: 15s
       scrapeTimeout: 10s
+      scrapeConfigs: |
+            - job_name: 'storefront'
+              sample_limit: 10000
+              metrics_path: /metrics
+              kubernetes_sd_configs:
+                - role: pod
+              relabel_configs:
+                - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+                  action: keep
+                  regex: true
+                - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+                  action: replace
+                  regex: (.+)
+                  target_label: __metrics_path__
+                - source_labels: [__address__]
+                  action: replace
+                  regex: ([^:]+)(?::\d+)?;(\d+)
+                  replacement: $1:$2
+                  target_label: __address__
+                - action: labelmap
+                  regex: __meta_kubernetes_pod_label_(.+)
+                - source_labels: [__meta_kubernetes_namespace]
+                  action: replace
+                  target_label: EKS_Namespace
+                - source_labels: [__meta_kubernetes_pod_name]
+                  action: replace
+                  target_label: EKS_PodName
+                - source_labels: [__meta_kubernetes_pod_container_name]
+                  action: replace
+                  target_label: EKS_Container
+
     ampexporters:
       namespaces: "AMP data"
       endpoint: "https://aps-workspaces.us-west-2.amazonaws.com/workspaces/ws-e8aabeb8-3f57-4fd2-945e-d0453dbefb74/api/v1/remote_write"
