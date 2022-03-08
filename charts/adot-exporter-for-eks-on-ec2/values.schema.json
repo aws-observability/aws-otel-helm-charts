@@ -588,6 +588,9 @@
                                 },
                                 "name": {
                                     "type": "string"
+                                },
+                                "annotations": {
+                                    "type": "object"
                                 }
                             }
                         },

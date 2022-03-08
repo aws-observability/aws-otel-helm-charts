@@ -179,11 +179,13 @@ adotCollector:
   daemonSet:
     enabled: true
     daemonSetName: "adot-collector-daemonset"
+    createNamespace: true
     namespace: "amzn-cloudwatch-metrics"
     namespaceOverride: ""
     serviceAccount:
       create: true
       name: "adot-collector-sa"
+      annotations: {}
     clusterRoleName: "adot-collector-role"
     clusterRoleBindingName: "adot-collector-role-binding"
     configMap:
