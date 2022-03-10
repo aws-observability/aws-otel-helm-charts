@@ -9,7 +9,7 @@ serviceAccount:
   annotations: {}
   name: ""
 fluentbit:
-  enabled: false
+  enabled: true
   namespaceOverride: ""
   name: "fluent-bit"
   configName: "fluent-bit-config"
@@ -180,7 +180,7 @@ adotCollector:
     enabled: true
     daemonSetName: "adot-collector-daemonset"
     namespace: "amazon-metrics"
-    cwEnabled: false
+    cwEnabled: true
     ampEnabled: true
     namespaceOverride: ""
     serviceAccount:
@@ -341,7 +341,7 @@ adotCollector:
       scrapeInterval: 15s
       scrapeTimeout: 10s
       scrapeConfigs: |
-            - job_name: 'storefront'
+            - job_name: 'k8s_metrics_scrape'
               sample_limit: 10000
               metrics_path: /metrics
               kubernetes_sd_configs:
@@ -376,9 +376,9 @@ adotCollector:
 
     ampexporters:
       namespaces: "AMP data"
-      endpoint: "https://aps-workspaces.us-west-2.amazonaws.com/workspaces/ws-e8aabeb8-3f57-4fd2-945e-d0453dbefb74/api/v1/remote_write"
+      endpoint: "[Add Prometheus workspace remote write URL]"
       resourcetotel: true
-      region: "us-west-2"
+      region: "[Add AWS Region]"
       service: "aps"
     service:
       metrics:
