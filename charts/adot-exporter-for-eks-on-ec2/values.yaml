@@ -148,7 +148,7 @@ fluentbit:
 
 fargateLog:
   enabled: false
-  name: "aws-logging"
+  name: "amazon-logging"
   namespace: "aws-observability"
   awsObservability: "enabled"
   outputConf:
@@ -179,7 +179,7 @@ adotCollector:
   daemonSet:
     enabled: true
     daemonSetName: "adot-collector-daemonset"
-    namespace: "amzn-metrics"
+    namespace: "amazon-metrics"
     cwEnabled: true
     ampEnabled: true
     namespaceOverride: ""
@@ -202,6 +202,10 @@ adotCollector:
         valueFrom:
           fieldRef:
             fieldPath: "status.hostIP"
+      - name: "K8S_POD_NAME"
+        valueFrom:
+          fieldRef:
+            fieldPath: "metadata.name"
       - name: "HOST_NAME"
         valueFrom:
           fieldRef:
@@ -357,12 +361,15 @@ adotCollector:
                   target_label: __address__
                 - action: labelmap
                   regex: __meta_kubernetes_pod_label_(.+)
+                - source_labels: [__meta_kubernetes_pod_node_name]
+                  action: keep
+                  regex: K8S_NODE_NAME
                 - source_labels: [__meta_kubernetes_namespace]
                   action: replace
-                  target_label: EKS_Namespace
+                  target_label: K8S_NAMESPACE
                 - source_labels: [__meta_kubernetes_pod_name]
                   action: replace
-                  target_label: EKS_PodName
+                  target_label: K8S_POD_NAME
                 - source_labels: [__meta_kubernetes_pod_container_name]
                   action: replace
                   target_label: EKS_Container
