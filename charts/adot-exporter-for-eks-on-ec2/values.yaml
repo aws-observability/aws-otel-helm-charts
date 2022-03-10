@@ -9,7 +9,7 @@ serviceAccount:
   annotations: {}
   name: ""
 fluentbit:
-  enabled: true
+  enabled: false
   namespaceOverride: ""
   name: "fluent-bit"
   configName: "fluent-bit-config"
@@ -180,7 +180,7 @@ adotCollector:
     enabled: true
     daemonSetName: "adot-collector-daemonset"
     namespace: "amazon-metrics"
-    cwEnabled: true
+    cwEnabled: false
     ampEnabled: true
     namespaceOverride: ""
     serviceAccount:
