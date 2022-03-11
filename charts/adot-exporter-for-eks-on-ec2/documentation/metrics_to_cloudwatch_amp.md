@@ -115,7 +115,7 @@ $ make all           # to run chart validation test and lint
 /aws/containerinsights/[CLUSTER_NAME]/performance
 ```
 
-![CloudWatch metrics](/Users/raviru/Downloads/cw_image.png)
+![CloudWatch metrics](https://quip-amazon.com/-/blob/eUW9AAU9kh2/crk0Gx_zIAfY8TpJVv-2kQ)
 
 
 ## Verify the metrics are sent to Amazon Managed Prometheus(AMP)
@@ -123,4 +123,4 @@ $ make all           # to run chart validation test and lint
 Connect to Amazon Managed Grafana to visualize metrics stored in AMP. Please see the following [document](https://docs.aws.amazon.com/grafana/latest/userguide/AMP-adding-AWS-config.html) to setup the Grafana environment.
 
 
-![AMP metrics](/Users/raviru/Downloads/amp_image.png)
+![AMP metrics](https://quip-amazon.com/-/blob/eUW9AAU9kh2/eYT02czJHk4WRxPhJhFoHA)
