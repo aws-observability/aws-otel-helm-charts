@@ -54,6 +54,17 @@
                 "namespace": {
                     "type": "string"
                 },
+                "serviceAccount": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "annotations": {
+                            "type": "object"
+                        }
+                    }
+                },
                 "image": {
                     "type": "object",
                     "required": [
