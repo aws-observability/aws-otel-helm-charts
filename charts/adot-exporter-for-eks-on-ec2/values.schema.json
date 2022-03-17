@@ -74,7 +74,7 @@
                     "properties": {
                         "repository": {
                             "type": "string",
-                            "pattern": "^[/a-z0-9-_]+$"
+                            "pattern": "^[a-z0-9\\.\\-_\\/]*$"
                         },
                         "tag": {
                             "type": "string"
@@ -561,7 +561,7 @@
                         },
                         "repository": {
                             "type": "string",
-                            "pattern": "^[/a-z0-9-_]+$"
+                            "pattern": "^[a-z0-9\\.\\-_\\/]*$"
                         },
                         "tag": {
                             "type": "string"
@@ -1105,7 +1105,7 @@
                                 },
                                 "repository": {
                                     "type": "string",
-                                    "pattern": "(^$|^[/a-z0-9-_]+)$"
+                                    "pattern": "^[a-z0-9\\.\\-_\\/]*$"
                                 },
                                 "tag": {
                                     "type": "string"
