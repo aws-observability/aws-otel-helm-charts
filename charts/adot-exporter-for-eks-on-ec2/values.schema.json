@@ -585,6 +585,9 @@
                         "daemonSetName": {
                             "type": "string"
                         },
+                        "createNamespace": {
+                            "type": "boolean"
+                        },
                         "namespace": {
                             "type": "string"
                         },
@@ -599,6 +602,9 @@
                                 },
                                 "name": {
                                     "type": "string"
+                                },
+                                "annotations": {
+                                    "type": "object"
                                 }
                             }
                         },
