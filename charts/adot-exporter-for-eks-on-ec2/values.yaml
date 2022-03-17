@@ -14,6 +14,9 @@ fluentbit:
   name: "fluent-bit"
   configName: "fluent-bit-config"
   namespace: "amazon-cloudwatch"
+  serviceAccount:
+    name: "fluent-bit"
+    annotations: {}
   imdsVersion: v1
   image:
     repository: "amazon/aws-for-fluent-bit"
