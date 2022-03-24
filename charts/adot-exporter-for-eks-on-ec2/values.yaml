@@ -83,6 +83,19 @@ fluentbit:
       memBufLimit: "5MB"
       skipLongLines: "On"
       refreshInterval: 10
+  output:
+    applicationLog:
+      log_retention:
+        enabled: false
+        days: 30
+    dataplaneLog:
+      log_retention:
+        enabled: false
+        days: 30
+    hostLog:
+      log_retention:
+        enabled: false
+        days: 30
   kubernetesFilter:
     match: "application.*"
     kubeURL: "https://kubernetes.default.svc:443"
