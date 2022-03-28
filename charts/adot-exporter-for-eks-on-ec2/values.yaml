@@ -377,7 +377,7 @@ adotCollector:
     ampexporters:
       namespaces: ""
       endpoint: ""
-      resourcetotel: true
+      resourcetotel: false
       region: ""
     service:
       metrics:
