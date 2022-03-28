@@ -375,20 +375,15 @@ adotCollector:
                   target_label: EKS_Container
 
     ampexporters:
-      namespaces: "AMP data"
-      endpoint: "[Add Prometheus workspace remote write URL]"
+      namespaces: ""
+      endpoint: ""
       resourcetotel: true
-      region: "[Add AWS Region]"
-      service: "aps"
+      region: ""
     service:
       metrics:
         receivers: ["awscontainerinsightreceiver", "prometheus"]
-        cwreceiver: "awscontainerinsightreceiver"
-        ampreceiver: "prometheus"
         processors: ["batch/metrics"]
         exporters: ["awsemf", "awsprometheusremotewrite"]
-        cwexporter: "awsemf"
-        ampexporter: "awsprometheusremotewrite"
       extensions: ["health_check"]
 
   sidecar:

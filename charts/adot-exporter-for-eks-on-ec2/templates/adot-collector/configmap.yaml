@@ -42,11 +42,11 @@ data:
       awsprometheusremotewrite:
         namespace: {{ .Values.adotCollector.daemonSet.ampexporters.namespace }}
         endpoint: {{ .Values.adotCollector.daemonSet.ampexporters.endpoint }}
-        # resource_to_telemetry_conversion: 
-        #   enabled: {{ .Values.adotCollector.daemonSet.ampexporters.resourcetotel }}
+        resource_to_telemetry_conversion: 
+          enabled: {{ .Values.adotCollector.daemonSet.ampexporters.resourcetotel }}
         aws_auth:
           region: {{ .Values.adotCollector.daemonSet.ampexporters.region }}
-          service: {{ .Values.adotCollector.daemonSet.ampexporters.service }}
+          service: aps
         
     service:
       pipelines:
@@ -55,14 +55,8 @@ data:
           - {{.}} {{- end }}
           processors: {{- range .Values.adotCollector.daemonSet.service.metrics.processors }}
           - {{.}} {{- end }}
-          {{- if eq .Values.adotCollector.daemonSet.cwEnabled false }}
-          exporters: {{ .Values.adotCollector.daemonSet.service.metrics.ampexporter }}
-          {{- else if eq .Values.adotCollector.daemonSet.ampEnabled false }}
-          exporters: {{ .Values.adotCollector.daemonSet.service.metrics.cwexporter }}
-          {{- else }}
           exporters: {{- range .Values.adotCollector.daemonSet.service.metrics.exporters }}
           - {{.}} {{- end }}
-          {{- end}}
       extensions: {{- range .Values.adotCollector.daemonSet.service.extensions }}
       - {{.}} {{- end }}
 {{- end }}
