@@ -14,6 +14,9 @@ fluentbit:
   name: "fluent-bit"
   configName: "fluent-bit-config"
   namespace: "amazon-cloudwatch"
+  serviceAccount:
+    name: "fluent-bit"
+    annotations: {}
   imdsVersion: v1
   image:
     repository: "amazon/aws-for-fluent-bit"
@@ -179,13 +182,15 @@ adotCollector:
   daemonSet:
     enabled: true
     daemonSetName: "adot-collector-daemonset"
+    createNamespace: true
     namespace: "amazon-metrics"
+    namespaceOverride: ""
     cwEnabled: true
     ampEnabled: true
-    namespaceOverride: ""
     serviceAccount:
       create: true
       name: "adot-collector-sa"
+      annotations: {}
     clusterRoleName: "adot-collector-role"
     clusterRoleBindingName: "adot-collector-role-binding"
     configMap:
