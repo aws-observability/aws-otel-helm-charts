@@ -185,7 +185,7 @@ adotCollector:
     namespaceOverride: ""
     serviceAccount:
       create: true
-      name: "adot-collector"
+      name: "adot-collector-sa"
     clusterRoleName: "adot-collector-role"
     clusterRoleBindingName: "adot-collector-role-binding"
     configMap:
@@ -357,13 +357,13 @@ adotCollector:
                 - source_labels: [__address__]
                   action: replace
                   regex: ([^:]+)(?::\d+)?;(\d+)
-                  replacement: $1:$2
+                  replacement: $$1:$$2
                   target_label: __address__
                 - action: labelmap
                   regex: __meta_kubernetes_pod_label_(.+)
                 - source_labels: [__meta_kubernetes_pod_node_name]
                   action: keep
-                  regex: K8S_NODE_NAME
+                  regex: ${K8S_NODE_NAME}
                 - source_labels: [__meta_kubernetes_namespace]
                   action: replace
                   target_label: K8S_NAMESPACE

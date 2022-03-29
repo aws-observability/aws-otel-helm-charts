@@ -23,7 +23,8 @@ data:
           global:
             scrape_interval: {{ .Values.adotCollector.daemonSet.ampreceivers.scrapeInterval }}
             scrape_timeout: {{ .Values.adotCollector.daemonSet.ampreceivers.scrapeTimeout }}
-          scrape_configs: {{ .Values.adotCollector.daemonSet.ampreceivers.scrapeConfigs | nindent 10 }}
+          scrape_configs: 
+            {{ .Values.adotCollector.daemonSet.ampreceivers.scrapeConfigs | nindent 12 }}
     processors:
       batch/metrics:
         timeout: {{ .Values.adotCollector.daemonSet.processors.timeout }}
