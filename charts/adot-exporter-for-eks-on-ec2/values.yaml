@@ -176,7 +176,7 @@ adotCollector:
   image:
     name: "aws-otel-collector"
     repository: "amazon/aws-otel-collector"
-    tag: "v0.14.0"
+    tag: "v0.17.0"
     daemonSetPullPolicy: "IfNotPresent"
     sidecarPullPolicy: "Always"
   daemonSet:
