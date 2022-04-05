@@ -14,6 +14,9 @@ fluentbit:
   name: "fluent-bit"
   configName: "fluent-bit-config"
   namespace: "amazon-cloudwatch"
+  serviceAccount:
+    name: "fluent-bit"
+    annotations: {}
   imdsVersion: v1
   image:
     repository: "amazon/aws-for-fluent-bit"
@@ -173,19 +176,19 @@ adotCollector:
   image:
     name: "aws-otel-collector"
     repository: "amazon/aws-otel-collector"
-    tag: "v0.14.0"
+    tag: "v0.17.0"
     daemonSetPullPolicy: "IfNotPresent"
     sidecarPullPolicy: "Always"
   daemonSet:
     enabled: true
     daemonSetName: "adot-collector-daemonset"
+    createNamespace: true
     namespace: "amazon-metrics"
-    cwEnabled: true
-    ampEnabled: true
     namespaceOverride: ""
     serviceAccount:
       create: true
-      name: "adot-collector"
+      name: "adot-collector-sa"
+      annotations: {}
     clusterRoleName: "adot-collector-role"
     clusterRoleBindingName: "adot-collector-role-binding"
     configMap:
@@ -357,13 +360,13 @@ adotCollector:
                 - source_labels: [__address__]
                   action: replace
                   regex: ([^:]+)(?::\d+)?;(\d+)
-                  replacement: $1:$2
+                  replacement: $$1:$$2
                   target_label: __address__
                 - action: labelmap
                   regex: __meta_kubernetes_pod_label_(.+)
                 - source_labels: [__meta_kubernetes_pod_node_name]
                   action: keep
-                  regex: K8S_NODE_NAME
+                  regex: ${K8S_NODE_NAME}
                 - source_labels: [__meta_kubernetes_namespace]
                   action: replace
                   target_label: K8S_NAMESPACE
@@ -375,20 +378,15 @@ adotCollector:
                   target_label: EKS_Container
 
     ampexporters:
-      namespaces: "AMP data"
-      endpoint: "[Add Prometheus workspace remote write URL]"
-      resourcetotel: true
-      region: "[Add AWS Region]"
-      service: "aps"
+      namespaces: ""
+      endpoint: ""
+      resourcetotel: false
+      region: ""
     service:
       metrics:
-        receivers: ["awscontainerinsightreceiver", "prometheus"]
-        cwreceiver: "awscontainerinsightreceiver"
-        ampreceiver: "prometheus"
+        receivers: ["prometheus"]
         processors: ["batch/metrics"]
-        exporters: ["awsemf", "awsprometheusremotewrite"]
-        cwexporter: "awsemf"
-        ampexporter: "awsprometheusremotewrite"
+        exporters: ["awsprometheusremotewrite"]
       extensions: ["health_check"]
 
   sidecar:
