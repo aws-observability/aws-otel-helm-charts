@@ -24,6 +24,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 
 This project is licensed under the Apache 2.0 License.
 
+# ADOT Roadmap 
+
+You can track upcoming features and enhancements for ADOT on its [roadmap](https://github.com/orgs/aws-observability/projects/4).
+
 # Maintainers
 
 - [Alolita Sharma](https://github.com/alolita)
