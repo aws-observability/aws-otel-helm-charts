@@ -117,7 +117,7 @@ $ make all           # to run chart validation test and lint
 
 ## Verify the metrics are sent to Amazon Managed Service for Prometheus(AMP)
 
-Connect to Amazon Managed Grafana to visualize metrics stored in AMP. Please see the following [document](https://docs.aws.amazon.com/grafana/latest/userguide/AMP-adding-AWS-config.html) to setup the Grafana environment.
+Connect to Amazon Managed Service for Grafana to visualize metrics stored in AMP. Please see the following [document](https://docs.aws.amazon.com/grafana/latest/userguide/AMP-adding-AWS-config.html) to setup the Grafana environment.
 
 ![alt text](screenshots/Amp_dash.png?raw=true "Amp Metrics")
 
