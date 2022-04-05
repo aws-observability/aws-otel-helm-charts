@@ -127,8 +127,6 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
 [Ruthvik Ravindra](https://github.com/ruthvik17)
 
-[Kausik Amancherla]()
-
 ## Other useful links
 
 [Set up Fluent Bit as a DaemonSet to send logs to CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html)
