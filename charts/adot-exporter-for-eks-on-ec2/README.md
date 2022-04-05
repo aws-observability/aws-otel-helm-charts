@@ -95,7 +95,7 @@ Please follow the links to get more details for specific use cases and deploymen
 * To send metrics to CloudWatch and Amazon Managed Service for Prometheus(AMP) and logs to CloudWatch. Click [here](documentation/metrics_to_cloudwatch_amp.md).
 * To deploy the Adot Collector as a Sidecar. Click [here](documentation/deploy_collector_as_sidecar.md).
 * To deploy EKS on AWS Fargate. Click [here](documentation/aws_logging_on_fargate.md).
-* The various scenarious under which the Helm chart was tested has been documented [here](documentation/helm_chart_test_doc.pdf)
+* The various scenarious under which the Helm chart was tested has been documented [here](documentation/helm_chart_test_doc.pdf).
 
 
 ### Deploy ADOT Collector as Deployment and StatefulSet
