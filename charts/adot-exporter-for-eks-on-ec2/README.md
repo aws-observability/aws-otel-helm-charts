@@ -1,7 +1,7 @@
 # ADOT Helm chart for EKS on EC2 metrics and logs to Amazon CloudWatch Container Insights
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-This [Helm](https://helm.sh/) chart provides easy to use [AWS Elastic Kubernetes Service](https://aws.amazon.com/eks/) (EKS) on [AWS Elastic Compute Cloud](https://aws.amazon.com/ec2/) (EC2) monitoring with [AWS Distro for OpenTelemetry(ADOT) Collector](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html) for metrics and [Fluent Bit](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html) for logs. Therefore, the Helm chart is useful for customers who use EKS on EC2 and want to collect metrics and logs from clusters. The metrics will be sent to Amazon CloudWatch Container Insights and [Amazon Managed Prometheus](https://aws.amazon.com/prometheus/?trk=f6e79447-9b4c-4310-8415-1a76de2de47f&sc_channel=ps&sc_campaign=acquisition&sc_medium=ACQ-P|PS-GO|Non-Brand|Desktop|SU|Management%20Tools|Solution|US|EN|DSA&ef_id=CjwKCAiAg6yRBhBNEiwAeVyL0KLIKHm3fznhVURTI6T-WBvANCmqo3r0-pYp_U82lIDDMmXRXDk0DBoCohQQAvD_BwE:G:s&s_kwcid=AL!4422!3!579408286031!!!g!!) (AMP) and the logs will be sent to Amazon Cloudwatch.
+This [Helm](https://helm.sh/) chart provides easy to use [AWS Elastic Kubernetes Service](https://aws.amazon.com/eks/) (EKS) on [AWS Elastic Compute Cloud](https://aws.amazon.com/ec2/) (EC2) monitoring with [AWS Distro for OpenTelemetry(ADOT) Collector](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html) for metrics and [Fluent Bit](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html) for logs. Therefore, the Helm chart is useful for customers who use EKS on EC2 and want to collect metrics and logs from clusters. The metrics will be sent to Amazon CloudWatch Container Insights and [Amazon Managed Service for Prometheus](https://aws.amazon.com/prometheus/?trk=f6e79447-9b4c-4310-8415-1a76de2de47f&sc_channel=ps&sc_campaign=acquisition&sc_medium=ACQ-P|PS-GO|Non-Brand|Desktop|SU|Management%20Tools|Solution|US|EN|DSA&ef_id=CjwKCAiAg6yRBhBNEiwAeVyL0KLIKHm3fznhVURTI6T-WBvANCmqo3r0-pYp_U82lIDDMmXRXDk0DBoCohQQAvD_BwE:G:s&s_kwcid=AL!4422!3!579408286031!!!g!!) (AMP) and the logs will be sent to Amazon Cloudwatch.
 
 The Helm chart configured in this repository deploys the ADOT Collector and Fluent Bit as [DaemonSets](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/) and is ready to collect metrics and logs and send them to Amazon CloudWatch Container Insights and AMP.
 
@@ -63,8 +63,8 @@ The following prerequisites need to be set up in order to install this Helm char
 - Your EKS Cluster on EC2 
 - [Amazon CloudWatch Container Insights prerequisites](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-prerequisites.html)
 - Using the above instructions, please attach the ‘prometheusremotewriteacess’ policy to the nodes.
-- Your working [Amazon Managed Prometheus(AMP) workspace](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-onboard-create-workspace.html).
-- Amazon Managed Grafana is the go-to platform for visualizing AMP data.
+- Your working [Amazon Managed Service for Prometheus(AMP) workspace](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-onboard-create-workspace.html).
+- [Amazon Managed Service for Grafana](https://aws.amazon.com/grafana/) is the go-to platform for visualizing AMP data.
 - [Helm v3+](https://helm.sh/docs/helm/helm_install/)
 
 ## Get Repository Information
@@ -92,7 +92,7 @@ Documentation
 
 Please follow the links to get more details for specific use cases and deployment of the collector.
 
-* To send metrics to CloudWatch and Amazon Managed Prometheus(AMP) and logs to CloudWatch. Click [here](https://quip-amazon.com/4D4uAoOweVcC#eUW9AAU9kh2).
+* To send metrics to CloudWatch and Amazon Managed Service for Prometheus(AMP) and logs to CloudWatch. Click [here](https://quip-amazon.com/4D4uAoOweVcC#eUW9AAU9kh2).
 * To deploy the Adot Collector as a Sidecar. Click [here](https://quip-amazon.com/8a9ZA5bo3biH/Deploy-ADOT-Collector-as-a-Sidecar).
 * To deploy EKS on AWS Fargate. Click [here](https://quip-amazon.com/49fbAxLvNT8z/AWS-EKS-on-Fargate).
 
