@@ -115,7 +115,7 @@ $ make all           # to run chart validation test and lint
 /aws/containerinsights/[CLUSTER_NAME]/performance
 ```
 
-![alt text](charts/adot-exporter-for-eks-on-ec2/documentation/screenshots/Cloudwatch_dash.png)
+![alt text](https://github.com/open-o11y/aws-otel-helm-charts/blob/update-readme/charts/adot-exporter-for-eks-on-ec2/documentation/charts/adot-exporter-for-eks-on-ec2/documentation/screenshots/Cloudwatch_dash.png?raw=true)
 
 
 ## Verify the metrics are sent to Amazon Managed Prometheus(AMP)
@@ -123,4 +123,4 @@ $ make all           # to run chart validation test and lint
 Connect to Amazon Managed Grafana to visualize metrics stored in AMP. Please see the following [document](https://docs.aws.amazon.com/grafana/latest/userguide/AMP-adding-AWS-config.html) to setup the Grafana environment.
 
 
-![alt text](charts/adot-exporter-for-eks-on-ec2/documentation/screenshots/Amp_dash.png)
+![alt text](https://github.com/open-o11y/aws-otel-helm-charts/blob/update-readme/charts/adot-exporter-for-eks-on-ec2/documentation/charts/adot-exporter-for-eks-on-ec2/documentation/screenshots/Amp_dash.png?raw=true)
