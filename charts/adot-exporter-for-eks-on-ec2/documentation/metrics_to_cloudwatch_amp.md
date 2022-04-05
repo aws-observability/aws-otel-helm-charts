@@ -1,6 +1,6 @@
 
 
-# Sending EKS cluster on EC2 metrics to CloudWatch and Amazon Managed Prometheus(AMP)
+# Sending EKS cluster on EC2 metrics to CloudWatch and Amazon Managed Service for Prometheus(AMP)
 
 ## Install Chart
 
@@ -8,7 +8,7 @@ The helm chart can be installed in 3 configurations. This allows the helm chart 
 
 ### Default Mode
 
- By default, the helm chart is configured to send metrics data to the AMP workspace only. You need update the `values.yaml` file to add the Remote Write Endpoint URL and the region for your AMP workspace. By default, the region is set to `us-west-2`.
+ By default, the helm chart is configured to send metrics data to the AMP workspace only. You need update the `values.yaml` file to add the Remote Write Endpoint URL and the region for your AMP workspace. By default, the region is set to `us-west-2`. By default, only the `prometheus` receiver and `awsprometheusremotewrite` exporter is included to be able to send metrics to AMP.
 
 ```console
 helm install \  
@@ -38,14 +38,12 @@ namespaces, they are successfully deployed.
 
 ### Sending metrics and logs to CloudWatch Container Insights only
 
-To send metrics and logs to CloudWatch, you need to disable the AMP pipeline and enable the CloudWatch pipeline. You can either update the `values.yaml` to change the values of the following variable and then run the `helm install` command as above. Or you can use `--set` flag while installing the helm chart as shown below.
+To send metrics and logs to CloudWatch, you need to disable the AMP pipeline and enable the CloudWatch pipeline. You can either update the `values.yaml` to change the values of the following variable `exporters` and then run the `helm install` command as above. Only include the `awscontainerinsights` receiver and  `awsemfexporter` exporter to send metrics to CloudWatch Container Insights.
 
 ```console
 helm install \  
   [RELEASE_NAME] [REPO_NAME]/adot-exporter-for-eks-on-ec2 \   
   --set clusterName=[CLUSTER_NAME] --set awsRegion=[AWS_REGION] \
-  --set adotCollector.daemonSet.ampEnabled=false \
-  --set adotCollector.daemonSet.cwEnabled=true \
   --set fluentbit.enabled=true
 ```
 
@@ -66,13 +64,12 @@ namespaces, they are successfully deployed.
 
 ### Sending metrics to both CloudWatch and AMP
 
-To send metrics and logs to CloudWatch, you need to enable the CloudWatch pipeline. You can either update the `values.yaml` to change the values of the following variable and then run the `helm install` command as above. Or you can use `--set` flag while installing the helm chart as shown below.
+To send metrics and logs to CloudWatch, you need to enable the CloudWatch pipeline. You can either update the `values.yaml` to change the values of the following variable `expoerters` and then run the `helm install` command as above. Include both `prometheus`, `awscontainerinsights` as receivers, `awsemf`,`awsprometheusremotewrite` exporter to send metrics to both CloudWatch and AMP.
 
 ```console
 helm install \  
   [RELEASE_NAME] [REPO_NAME]/adot-exporter-for-eks-on-ec2 \   
   --set clusterName=[CLUSTER_NAME] --set awsRegion=[AWS_REGION] \
-  --set adotCollector.daemonSet.cwEnabled=true \
   --set fluentbit.enabled=true
 ```
 
