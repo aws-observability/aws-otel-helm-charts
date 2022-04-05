@@ -151,7 +151,7 @@ fluentbit:
 
 fargateLog:
   enabled: false
-  name: "aws-logging"
+  name: "amazon-logging"
   namespace: "aws-observability"
   awsObservability: "enabled"
   outputConf:
@@ -183,7 +183,7 @@ adotCollector:
     enabled: true
     daemonSetName: "adot-collector-daemonset"
     createNamespace: true
-    namespace: "amzn-cloudwatch-metrics"
+    namespace: "amazon-metrics"
     namespaceOverride: ""
     serviceAccount:
       create: true
@@ -205,6 +205,10 @@ adotCollector:
         valueFrom:
           fieldRef:
             fieldPath: "status.hostIP"
+      - name: "K8S_POD_NAME"
+        valueFrom:
+          fieldRef:
+            fieldPath: "metadata.name"
       - name: "HOST_NAME"
         valueFrom:
           fieldRef:
@@ -265,14 +269,14 @@ adotCollector:
         mountPath: "/conf"
     extensions:
       healthCheck: ""
-    receivers:
+    cwreceivers:
       collectionInterval: ""
       containerOrchestrator: ""
       addServiceAsAttribute: ""
       preferFullPodName: ""
     processors:
       timeout: 60s
-    exporters:
+    cwexporters:
       namespace: "ContainerInsights"
       logGroupName: ""
       logStreamName: "InputNodeName"
@@ -336,11 +340,53 @@ adotCollector:
       - dimensions: [[Namespace, ClusterName], [ClusterName]]
         metric_name_selectors:
           - namespace_number_of_running_pods
+    ampreceivers:
+      scrapeInterval: 15s
+      scrapeTimeout: 10s
+      scrapeConfigs: |
+            - job_name: 'k8s_metrics_scrape'
+              sample_limit: 10000
+              metrics_path: /metrics
+              kubernetes_sd_configs:
+                - role: pod
+              relabel_configs:
+                - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+                  action: keep
+                  regex: true
+                - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+                  action: replace
+                  regex: (.+)
+                  target_label: __metrics_path__
+                - source_labels: [__address__]
+                  action: replace
+                  regex: ([^:]+)(?::\d+)?;(\d+)
+                  replacement: $$1:$$2
+                  target_label: __address__
+                - action: labelmap
+                  regex: __meta_kubernetes_pod_label_(.+)
+                - source_labels: [__meta_kubernetes_pod_node_name]
+                  action: keep
+                  regex: ${K8S_NODE_NAME}
+                - source_labels: [__meta_kubernetes_namespace]
+                  action: replace
+                  target_label: K8S_NAMESPACE
+                - source_labels: [__meta_kubernetes_pod_name]
+                  action: replace
+                  target_label: K8S_POD_NAME
+                - source_labels: [__meta_kubernetes_pod_container_name]
+                  action: replace
+                  target_label: EKS_Container
+
+    ampexporters:
+      namespaces: ""
+      endpoint: ""
+      resourcetotel: false
+      region: ""
     service:
       metrics:
-        receivers: ["awscontainerinsightreceiver"]
+        receivers: ["prometheus"]
         processors: ["batch/metrics"]
-        exporters: ["awsemf"]
+        exporters: ["awsprometheusremotewrite"]
       extensions: ["health_check"]
 
   sidecar:
