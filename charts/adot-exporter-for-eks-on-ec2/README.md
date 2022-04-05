@@ -88,13 +88,15 @@ By changing values in `values.yaml`, you are able to customize the chart to use 
 
 Following options are some useful configurations that can be applied to this Helm chart.
 
-Documentation
+### Documentation
 
 Please follow the links to get more details for specific use cases and deployment of the collector.
 
-* To send metrics to CloudWatch and Amazon Managed Service for Prometheus(AMP) and logs to CloudWatch. Click [here](https://quip-amazon.com/4D4uAoOweVcC#eUW9AAU9kh2).
-* To deploy the Adot Collector as a Sidecar. Click [here](https://quip-amazon.com/8a9ZA5bo3biH/Deploy-ADOT-Collector-as-a-Sidecar).
-* To deploy EKS on AWS Fargate. Click [here](https://quip-amazon.com/49fbAxLvNT8z/AWS-EKS-on-Fargate).
+* To send metrics to CloudWatch and Amazon Managed Service for Prometheus(AMP) and logs to CloudWatch. Click [here](documentation/metrics_to_cloudwatch_amp.md).
+* To deploy the Adot Collector as a Sidecar. Click [here](documentation/deploy_collector_as_sidecar.md).
+* To deploy EKS on AWS Fargate. Click [here](documentation/aws_logging_on_fargate.md).
+* The various scenarious under which the Helm chart was tested has been documented [here](documentation/Testing the Helm chart.pdf)
+
 
 ### Deploy ADOT Collector as Deployment and StatefulSet
 
