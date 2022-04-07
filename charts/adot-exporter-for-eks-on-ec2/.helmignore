@@ -1,0 +1,5 @@
+# Ignore documentations folder
+documentation/
+
+# Ignore scripts folder
+scripts/
