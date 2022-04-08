@@ -290,6 +290,53 @@
                         }
                     }
                 },
+                "output": {
+                    "type": "object",
+                    "properties": {
+                        "applicationLog": {
+                            "type": "object",
+                            "properties": {
+                                "log_retention": {
+                                    "enabled": {
+                                        "type": "boolean"
+                                    },
+                                    "days": {
+                                        "type": "integer",
+                                        "enum": [1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 3653]
+                                    }
+                                }
+                            }
+                        },
+                        "dataplaneLog": {
+                            "type": "object",
+                            "properties": {
+                                "log_retention": {
+                                    "enabled": {
+                                        "type": "boolean"
+                                    },
+                                    "days": {
+                                        "type": "integer",
+                                        "enum": [1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 3653]
+                                    }
+                                }
+                            }
+                        },
+                        "hostLog": {
+                            "type": "object",
+                            "properties": {
+                                "log_retention": {
+                                    "enabled": {
+                                        "type": "boolean"
+                                    },
+                                    "days": {
+                                        "type": "integer",
+                                        "enum": [1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 3653]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "kubernetesFilter": {
                     "type": "object",
                     "properties": {
