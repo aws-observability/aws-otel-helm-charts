@@ -1,14 +1,19 @@
 
 
-# Sending EKS cluster on EC2 metrics to CloudWatch and Amazon Managed Service for Prometheus(AMP)
+# Offload EKS cluster (on EC2) metrics to Amazon CloudWatch and/or Amazon Managed Prometheus(AMP)
 
 ## Install Chart
 
-The helm chart can be installed in 3 configurations. This allows the helm chart to be flexible based on your needs. The options are sending metrics AMP only, metrics and logs to CloudWatch only or sending the data to both the platforms. This can be configured based on the user's needs. You can also turn off the fluentbit deployment if you do not want to collect logs. All the deployment modes are explained below. 
+The helm chart provides flexibility to offload mertrics into target platform(CloudWatch, AMP) of your choice. Here are the possible deployment options - 
+* Offload metrics to Amazon Managed Prometheus(AMP)
+* Offload metrics to Amazon CloudWatch 
+* Offload metrics to both Amazon Managed Prometheus(AMP) and Amazon CloudWatch
 
-### Default Mode
+The above-mentioned deployment modes are explained in-detail in the following sections. 
 
- By default, the helm chart is configured to send metrics data to the AMP workspace only. You need update the `values.yaml` file to add the Remote Write Endpoint URL and the region for your AMP workspace. By default, the region is set to `us-west-2`. By default, only the `prometheus` receiver and `awsprometheusremotewrite` exporter is included to be able to send metrics to AMP.
+### Default Mode (Offload metrics to only Amazon Managed Prometheus)
+
+ By default, the helm chart is configured to offload metrics data to the Amazon Managed Prometheus(AMP) workspace only. You need update the `values.yaml` file to add the Remote Write Endpoint URL and the region for your AMP workspace. By default, the region is set to `us-west-2`. By default, only the `prometheus` receiver and `awsprometheusremotewrite` exporter is included to be able to send metrics to AMP.
 
 ```console
 helm install \  
@@ -36,9 +41,9 @@ If you see these two running pods, two for ADOT Collector as [DaemonSets](https:
 namespaces, they are successfully deployed.
 
 
-### Sending metrics and logs to CloudWatch Container Insights only
+### Offload metrics to Amazon CloudWatch
 
-To send metrics and logs to CloudWatch, you need to disable the AMP pipeline and enable the CloudWatch pipeline. You can either update the `values.yaml` to change the values of the following variable `exporters` and then run the `helm install` command as above. Only include the `awscontainerinsights` receiver and  `awsemfexporter` exporter to send metrics to CloudWatch Container Insights.
+To offload metrics to CloudWatch, you need to disable the AMP pipeline and enable the CloudWatch pipeline. You can either update the `values.yaml` to change the values of the following variable `exporters` and then run the `helm install` command as above. Only include the `awscontainerinsightreceiver` receiver and `awsemf` exporter to send metrics to CloudWatch Container Insights.
 
 ```console
 helm install \  
@@ -62,9 +67,9 @@ If you see these four running pods, two for ADOT Collector and two for Fluent Bi
 namespaces, they are successfully deployed.
 
 
-### Sending metrics to both CloudWatch and AMP
+### Offload metrics to both CloudWatch and Amazon Managed Prometheus(AMP)
 
-To send metrics and logs to CloudWatch, you need to enable the CloudWatch pipeline. You can either update the `values.yaml` to change the values of the following variable `expoerters` and then run the `helm install` command as above. Include both `prometheus`, `awscontainerinsights` as receivers, `awsemf`,`awsprometheusremotewrite` exporter to send metrics to both CloudWatch and AMP.
+To send metrics to CloudWatch, you need to enable the CloudWatch pipeline. You can either update the `values.yaml` to change the values of the following variable `exporters` and then run the `helm install` command as above. Include both `prometheus`, `awscontainerinsightreceiver` as receivers, `awsemf`,`awsprometheusremotewrite` exporter to send metrics to both CloudWatch and AMP.
 
 ```console
 helm install \  
@@ -98,7 +103,7 @@ $ make install-tools # required initially
 $ make all           # to run chart validation test and lint 
 ```
 
-## Verify the metrics and logs are sent to Amazon CloudWatch
+## Verify the metrics are sent to Amazon CloudWatch
 
 * Open Amazon CloudWatch console
 * Select "Logs → Log groups" on the left navigation bar.
