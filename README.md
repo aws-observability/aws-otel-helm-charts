@@ -30,6 +30,5 @@ You can track upcoming features and enhancements for ADOT on its [roadmap](https
 
 # Maintainers
 
-- [Alolita Sharma](https://github.com/alolita)
-- [Hyunuk Lim](https://github.com/hyunuk)
-- [James Park](https://github.com/JamesJHPark)
+- [Anthony Mirabella](https://github.com/Aneurysm9)
+- [Ruthvik Ravindra](https://github.com/ruthvik17)
