@@ -4,7 +4,7 @@
 
 A sidecar is a microservice design pattern where a companion service runs next to your primary microservice, augmenting its abilities or intercepting resources it is utilizing. The sidecar pattern would be the best fit for a single application monitoring.
 
-In order to deploy the ADOT Collector in Sidecar mode using the Helm chart, 1) update sidecar.yaml and values.yaml files in the Helm chart with the application configurations and 2) include the use of --set flag in the helm install command from [Install Chart](https://github.com/aws-observability/aws-otel-helm-charts/tree/master/charts/adot-exporter-for-eks-on-ec2#install-chart).
+In order to deploy the ADOT Collector in Sidecar mode using the Helm chart, 1) update sidecar.yaml and values.yaml files in the Helm chart with the application configurations and 2) include the use of --set flag in the helm install command from [Install Chart](https://github.com/aws-observability/aws-otel-helm-charts/tree/main/charts/adot-exporter-for-eks-on-ec2#install-chart).
 Please refer to the installation documentation to ensure your helm chart is configured to send metrics and logs to the platform of your choice.
 
 
