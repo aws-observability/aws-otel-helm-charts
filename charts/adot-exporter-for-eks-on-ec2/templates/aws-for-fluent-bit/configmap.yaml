@@ -89,6 +89,7 @@ data:
         log_group_name      /aws/containerinsights/{{ .Values.clusterName }}/application
         log_stream_prefix   ${HOST_NAME}-
         auto_create_group   true
+        {{ if .Values.fluentbit.output.applicationLog.log_retention.enabled }}log_retention_days  {{ .Values.fluentbit.output.applicationLog.log_retention.days | default 7 }}{{ end }}  
         extra_user_agent    container-insights
 
   dataplane-log.conf: |
@@ -128,7 +129,7 @@ data:
     [FILTER]
         Name                aws
         Match               dataplane.*
-        imds_version        v1
+        imds_version        {{ .Values.fluentbit.imdsVersion }}
 
     [OUTPUT]
         Name                cloudwatch_logs
@@ -136,6 +137,7 @@ data:
         region              {{ .Values.awsRegion }}
         log_group_name      /aws/containerinsights/{{ .Values.clusterName }}/dataplane
         log_stream_prefix   ${HOST_NAME}-
+        {{ if .Values.fluentbit.output.dataplaneLog.log_retention.enabled }}log_retention_days  {{ .Values.fluentbit.output.dataplaneLog.log_retention.days | default 7 }}{{ end }}
         auto_create_group   true
         extra_user_agent    container-insights
     
@@ -176,7 +178,7 @@ data:
     [FILTER]
         Name                aws
         Match               host.*
-        imds_version        v1
+        imds_version        {{ .Values.fluentbit.imdsVersion }}
 
     [OUTPUT]
         Name                cloudwatch_logs
@@ -184,6 +186,7 @@ data:
         region              {{ .Values.awsRegion }}
         log_group_name      /aws/containerinsights/{{ .Values.clusterName }}/host
         log_stream_prefix   ${HOST_NAME}.
+        {{ if .Values.fluentbit.output.hostLog.log_retention.enabled }}log_retention_days  {{ .Values.fluentbit.output.hostLog.log_retention.days | default 7 }}{{ end }}
         auto_create_group   true
         extra_user_agent    container-insights
 

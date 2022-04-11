@@ -4,7 +4,7 @@
 ## Introduction
 This AWS Distro for OpenTelemetry (ADOT) Helm Charts repository contains [Helm](https://helm.sh/) charts to provide easy mechanisms to setup the ADOT Collector and other collection agents such as Fluent Bit to collect telemetry data such as metrics, logs and traces to send to AWS monitoring services.
 
-This repository contains a [Helm](https://helm.sh/) chart to provide easy to operate, end-to-end  [AWS Elastic Kubernetes Service](https://aws.amazon.com/eks/) (EKS) on [AWS Elastic Compute Cloud](https://aws.amazon.com/ec2/) (EC2) monitoring with [AWS Distro for OpenTelemetry(ADOT) Collector](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html) for metrics and [Fluent Bit](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html) for logs. This Helm chart is useful for customers who use EKS on EC2 and want to collect metrics and logs to send to Amazon CloudWatch Container Insights.
+This repository contains a [Helm](https://helm.sh/) chart to provide easy to operate, end-to-end  [AWS Elastic Kubernetes Service](https://aws.amazon.com/eks/) (EKS) on [AWS Elastic Compute Cloud](https://aws.amazon.com/ec2/) (EC2) monitoring with [AWS Distro for OpenTelemetry(ADOT) Collector](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html) for metrics and [Fluent Bit](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html) for logs. This Helm chart is useful for customers who use EKS on EC2 and want to collect metrics and logs to send to Amazon CloudWatch Container Insights and Amazon Managed Service for Prometheus(AMP).
 
 ## Getting Started
 
@@ -24,8 +24,11 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 
 This project is licensed under the Apache 2.0 License.
 
+# ADOT Roadmap 
+
+You can track upcoming features and enhancements for ADOT on its [roadmap](https://github.com/orgs/aws-observability/projects/4).
+
 # Maintainers
 
-- [Alolita Sharma](https://github.com/alolita)
-- [Hyunuk Lim](https://github.com/hyunuk)
-- [James Park](https://github.com/JamesJHPark)
+- [Anthony Mirabella](https://github.com/Aneurysm9)
+- [Ruthvik Ravindra](https://github.com/ruthvik17)

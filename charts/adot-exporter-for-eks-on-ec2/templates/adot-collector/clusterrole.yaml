@@ -24,6 +24,6 @@ rules:
     verbs: ["create", "get"]
   - apiGroups: [""]
     resources: ["configmaps"]
-    resourceNames: ["adot-container-insight-clusterleader"]
+    resourceNames: ["adot-container-insight-clusterleader", "otel-container-insight-clusterleader"]
     verbs: ["get","update"]
 {{- end }}
