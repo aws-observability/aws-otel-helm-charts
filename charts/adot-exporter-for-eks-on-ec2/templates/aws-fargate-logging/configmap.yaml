@@ -5,6 +5,8 @@ apiVersion: v1
 metadata:
   name: {{ .Values.fargateLog.name }}
   namespace: {{ .Values.fargateLog.namespace }}
+  labels:
+    {{- include "aws-fargate-logging.labels" . | indent 4 }}
 data:
   output.conf: |
     [OUTPUT]

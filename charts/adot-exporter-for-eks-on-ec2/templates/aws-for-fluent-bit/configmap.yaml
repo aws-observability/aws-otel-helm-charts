@@ -7,6 +7,7 @@ metadata:
   namespace: {{ include "aws-for-fluent-bit.namespace" . }}
   labels:
     k8s-app: {{ .Values.fluentbit.name }}
+    {{- include "aws-for-fluent-bit.labels" . | indent 4 }}
 data:
   fluent-bit.conf: |
     [SERVICE]

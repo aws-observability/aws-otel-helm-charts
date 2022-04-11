@@ -6,4 +6,5 @@ metadata:
   name: {{ include "aws-for-fluent-bit.namespace" . }}
   labels:
     name: {{ include "aws-for-fluent-bit.namespace" . }}
+    {{- include "aws-for-fluent-bit.labels" . | indent 4 }}
 {{- end }}

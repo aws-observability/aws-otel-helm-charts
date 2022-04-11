@@ -8,6 +8,7 @@ metadata:
   labels:
     app: {{ .Values.adotCollector.daemonSet.configMap.app }}
     component: {{ .Values.adotCollector.daemonSet.configMap.component }}
+    {{- include "adotCollector.daemonSet.labels" . | indent 4 }}
 data:
   adot-config:  |
     extensions:
