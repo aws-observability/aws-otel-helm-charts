@@ -55,20 +55,6 @@ data:
         Refresh_Interval    {{ .Values.fluentbit.input.applicationLog.refreshInterval }}
         Read_from_Head      {{ .Values.fluentbit.env.readFromHead }}
 
-    [INPUT]
-        Name                tail
-        Tag                 {{ .Values.fluentbit.input.applicationLog.tag }}
-        Path                {{ .Values.fluentbit.input.applicationLog.cloudwatchAgent.path }}
-        Docker_Mode         {{ .Values.fluentbit.input.applicationLog.dockerMode }}
-        Docker_Mode_Flush   {{ .Values.fluentbit.input.applicationLog.dockerModeFlush }}
-        Docker_Mode_Parser  {{ .Values.fluentbit.input.applicationLog.cloudwatchAgent.dockerModeParser }}
-        Parser              {{ .Values.fluentbit.input.applicationLog.parser }}
-        DB                  {{ .Values.fluentbit.input.applicationLog.cloudwatchAgent.db }}
-        Mem_Buf_Limit       {{ .Values.fluentbit.input.applicationLog.cloudwatchAgent.memBufLimit }}
-        Skip_Long_Lines     {{ .Values.fluentbit.input.applicationLog.skipLongLines }}
-        Refresh_Interval    {{ .Values.fluentbit.input.applicationLog.refreshInterval }}
-        Read_from_Head      {{ .Values.fluentbit.env.readFromHead }}
-
     [FILTER]
         Name                kubernetes
         Match               {{ .Values.fluentbit.kubernetesFilter.match }}
@@ -88,7 +74,9 @@ data:
         log_group_name      /aws/containerinsights/{{ .Values.clusterName }}/application
         log_stream_prefix   ${HOST_NAME}-
         auto_create_group   true
-        {{ if .Values.fluentbit.output.applicationLog.log_retention.enabled }}log_retention_days  {{ .Values.fluentbit.output.applicationLog.log_retention.days | default 7 }}{{ end }}  
+        {{ if .Values.fluentbit.output.applicationLog.log_retention.enabled }}
+        log_retention_days  {{ .Values.fluentbit.output.applicationLog.log_retention.days | default 7 }}
+        {{ end }}
         extra_user_agent    container-insights
 
   dataplane-log.conf: |
@@ -136,7 +124,9 @@ data:
         region              {{ .Values.awsRegion }}
         log_group_name      /aws/containerinsights/{{ .Values.clusterName }}/dataplane
         log_stream_prefix   ${HOST_NAME}-
-        {{ if .Values.fluentbit.output.dataplaneLog.log_retention.enabled }}log_retention_days  {{ .Values.fluentbit.output.dataplaneLog.log_retention.days | default 7 }}{{ end }}
+        {{ if .Values.fluentbit.output.dataplaneLog.log_retention.enabled }}
+        log_retention_days  {{ .Values.fluentbit.output.dataplaneLog.log_retention.days | default 7 }}
+        {{ end }}
         auto_create_group   true
         extra_user_agent    container-insights
     
@@ -185,7 +175,9 @@ data:
         region              {{ .Values.awsRegion }}
         log_group_name      /aws/containerinsights/{{ .Values.clusterName }}/host
         log_stream_prefix   ${HOST_NAME}.
-        {{ if .Values.fluentbit.output.hostLog.log_retention.enabled }}log_retention_days  {{ .Values.fluentbit.output.hostLog.log_retention.days | default 7 }}{{ end }}
+        {{ if .Values.fluentbit.output.hostLog.log_retention.enabled }}
+        log_retention_days  {{ .Values.fluentbit.output.hostLog.log_retention.days | default 7 }}
+        {{ end }}
         auto_create_group   true
         extra_user_agent    container-insights
 
