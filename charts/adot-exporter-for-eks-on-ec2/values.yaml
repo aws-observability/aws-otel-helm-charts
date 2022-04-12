@@ -46,11 +46,6 @@ fluentbit:
         path: "/var/log/containers/fluent-bit*"
         db: "/var/fluent-bit/state/flb_log.db"
         memBufLimit: "5MB"
-      cloudwatchAgent:
-        path: "/var/log/containers/cloudwatch-agent*"
-        dockerModeParser: "cwagent_firstline"
-        db: "/var/fluent-bit/state/flb_cwagent.db"
-        memBufLimit: "5MB"
     dataplaneLog:
       systemd:
         tag: "dataplane.systemd.*"
