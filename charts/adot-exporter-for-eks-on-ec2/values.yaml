@@ -397,9 +397,9 @@ adotCollector:
       region: ""
     service:
       metrics:
-        receivers: ["prometheus"]
+        receivers: ["awscontainerinsightreceiver"]
         processors: ["batch/metrics"]
-        exporters: ["awsprometheusremotewrite"]
+        exporters: ["awsemf"]
       extensions: ["health_check"]
 
   sidecar:
