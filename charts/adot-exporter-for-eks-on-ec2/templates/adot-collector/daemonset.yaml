@@ -33,4 +33,6 @@ spec:
       volumes:
         {{- toYaml .Values.adotCollector.daemonSet.volumes | nindent 10 }}
       serviceAccountName: {{ .Values.adotCollector.daemonSet.serviceAccount.name  }}
+      tolerations:
+        {{- toYaml .Values.adotCollector.daemonSet.tolerations | nindent 8 }}
 {{- end }}
