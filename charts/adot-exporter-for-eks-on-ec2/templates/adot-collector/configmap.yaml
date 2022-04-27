@@ -19,6 +19,7 @@ data:
         container_orchestrator: {{ .Values.adotCollector.daemonSet.cwreceivers.containerOrchestrator }}
         add_service_as_attribute: {{ .Values.adotCollector.daemonSet.cwreceivers.addServiceAsAttribute }}
         prefer_full_pod_name: {{ .Values.adotCollector.daemonSet.cwreceivers.preferFullPodName }}
+        add_full_pod_name_metric_label: {{ .Values.adotCollector.daemonSet.cwreceivers.addFullPodNameMetricLabel }}
       prometheus:
         config:
           global:
