@@ -4,11 +4,6 @@ global:
   namespaceOverride: ""
 awsRegion: ""
 clusterName: ""
-
-# -- Additional labels to add into metadata
-additionalLabels: {}
-  # app: adot
-
 serviceAccount:
   create: true
   annotations: {}
@@ -282,124 +277,132 @@ adotCollector:
         mountPath: "/conf"
     extensions:
       healthCheck: ""
-    cwreceivers:
-      collectionInterval: ""
-      containerOrchestrator: ""
-      addServiceAsAttribute: ""
-      preferFullPodName: ""
-    processors:
-      timeout: 60s
-    cwexporters:
-      namespace: "ContainerInsights"
-      logGroupName: ""
-      logStreamName: "InputNodeName"
-      enabled: true
-      dimensionRollupOption: "NoDimensionRollup"
-      parseJsonEncodedAttrValues: ["Sources", "kubernetes"]
-    metricDeclarations: |
-      # node metrics
-      - dimensions: [[NodeName, InstanceId, ClusterName]]
-        metric_name_selectors:
-          - node_cpu_utilization
-          - node_memory_utilization
-          - node_network_total_bytes
-          - node_cpu_reserved_capacity
-          - node_memory_reserved_capacity
-          - node_number_of_running_pods
-          - node_number_of_running_containers
-      - dimensions: [[ClusterName]]
-        metric_name_selectors:
-          - node_cpu_utilization
-          - node_memory_utilization
-          - node_network_total_bytes
-          - node_cpu_reserved_capacity
-          - node_memory_reserved_capacity
-          - node_number_of_running_pods
-          - node_number_of_running_containers
-          - node_cpu_usage_total
-          - node_cpu_limit
-          - node_memory_working_set
-          - node_memory_limit
-      # pod metrics
-      - dimensions: [[PodName, Namespace, ClusterName], [Service, Namespace, ClusterName], [Namespace, ClusterName], [ClusterName]]
-        metric_name_selectors:
-          - pod_cpu_utilization
-          - pod_memory_utilization
-          - pod_network_rx_bytes
-          - pod_network_tx_bytes
-          - pod_cpu_utilization_over_pod_limit
-          - pod_memory_utilization_over_pod_limit
-      - dimensions: [[PodName, Namespace, ClusterName], [ClusterName]]
-        metric_name_selectors:
-          - pod_cpu_reserved_capacity
-          - pod_memory_reserved_capacity
-      - dimensions: [[PodName, Namespace, ClusterName]]
-        metric_name_selectors:
-          - pod_number_of_container_restarts
-      # cluster metrics
-      - dimensions: [[ClusterName]]
-        metric_name_selectors:
-          - cluster_node_count
-          - cluster_failed_node_count
-      # service metrics
-      - dimensions: [[Service, Namespace, ClusterName], [ClusterName]]
-        metric_name_selectors:
-          - service_number_of_running_pods
-      # node fs metrics
-      - dimensions: [[NodeName, InstanceId, ClusterName], [ClusterName]]
-        metric_name_selectors:
-          - node_filesystem_utilization
-      # namespace metrics
-      - dimensions: [[Namespace, ClusterName], [ClusterName]]
-        metric_name_selectors:
-          - namespace_number_of_running_pods
-    ampreceivers:
-      scrapeInterval: 15s
-      scrapeTimeout: 10s
-      scrapeConfigs: |
-            - job_name: 'k8s_metrics_scrape'
-              sample_limit: 10000
-              metrics_path: /metrics
-              kubernetes_sd_configs:
-                - role: pod
-              relabel_configs:
-                - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
-                  action: keep
-                  regex: true
-                - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
-                  action: replace
-                  regex: (.+)
-                  target_label: __metrics_path__
-                - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
-                  action: replace
-                  regex: ([^:]+)(?::\d+)?;(\d+)
-                  replacement: $$1:$$2
-                  target_label: __address__
-                - action: labelmap
-                  regex: __meta_kubernetes_pod_label_(.+)
-                - source_labels: [__meta_kubernetes_pod_node_name]
-                  action: keep
-                  regex: ${K8S_NODE_NAME}
-                - source_labels: [__meta_kubernetes_namespace]
-                  action: replace
-                  target_label: K8S_NAMESPACE
-                - source_labels: [__meta_kubernetes_pod_name]
-                  action: replace
-                  target_label: K8S_POD_NAME
-                - source_labels: [__meta_kubernetes_pod_container_name]
-                  action: replace
-                  target_label: EKS_Container
+    cloudwatch:
+      enabled: false  
+      receivers:
+        receiver: &cwreceiver "awscontainerinsightreceiver"
+        collectionInterval: ""
+        containerOrchestrator: ""
+        addServiceAsAttribute: ""
+        preferFullPodName: ""
+      processors:
+        timeout: 60s
+      exporters:
+        exporter: &cwexporter "awsemf"
+        namespace: "ContainerInsights"
+        logGroupName: ""
+        logStreamName: "InputNodeName"
+        enabled: true
+        dimensionRollupOption: "NoDimensionRollup"
+        parseJsonEncodedAttrValues: ["Sources", "kubernetes"]
+      metricDeclarations: |
+        # node metrics
+        - dimensions: [[NodeName, InstanceId, ClusterName]]
+          metric_name_selectors:
+            - node_cpu_utilization
+            - node_memory_utilization
+            - node_network_total_bytes
+            - node_cpu_reserved_capacity
+            - node_memory_reserved_capacity
+            - node_number_of_running_pods
+            - node_number_of_running_containers
+        - dimensions: [[ClusterName]]
+          metric_name_selectors:
+            - node_cpu_utilization
+            - node_memory_utilization
+            - node_network_total_bytes
+            - node_cpu_reserved_capacity
+            - node_memory_reserved_capacity
+            - node_number_of_running_pods
+            - node_number_of_running_containers
+            - node_cpu_usage_total
+            - node_cpu_limit
+            - node_memory_working_set
+            - node_memory_limit
+        # pod metrics
+        - dimensions: [[PodName, Namespace, ClusterName], [Service, Namespace, ClusterName], [Namespace, ClusterName], [ClusterName]]
+          metric_name_selectors:
+            - pod_cpu_utilization
+            - pod_memory_utilization
+            - pod_network_rx_bytes
+            - pod_network_tx_bytes
+            - pod_cpu_utilization_over_pod_limit
+            - pod_memory_utilization_over_pod_limit
+        - dimensions: [[PodName, Namespace, ClusterName], [ClusterName]]
+          metric_name_selectors:
+            - pod_cpu_reserved_capacity
+            - pod_memory_reserved_capacity
+        - dimensions: [[PodName, Namespace, ClusterName]]
+          metric_name_selectors:
+            - pod_number_of_container_restarts
+        # cluster metrics
+        - dimensions: [[ClusterName]]
+          metric_name_selectors:
+            - cluster_node_count
+            - cluster_failed_node_count
+        # service metrics
+        - dimensions: [[Service, Namespace, ClusterName], [ClusterName]]
+          metric_name_selectors:
+            - service_number_of_running_pods
+        # node fs metrics
+        - dimensions: [[NodeName, InstanceId, ClusterName], [ClusterName]]
+          metric_name_selectors:
+            - node_filesystem_utilization
+        # namespace metrics
+        - dimensions: [[Namespace, ClusterName], [ClusterName]]
+          metric_name_selectors:
+            - namespace_number_of_running_pods
+    amp:
+      enable: true
+      receivers:
+        receiver: &ampreceiver "prometheus"
+        scrapeInterval: 15s
+        scrapeTimeout: 10s
+        scrapeConfigs: |
+          - job_name: 'k8s_metrics_scrape'
+            sample_limit: 10000
+            metrics_path: /metrics
+            kubernetes_sd_configs:
+              - role: pod
+            relabel_configs:
+              - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+                action: keep
+                regex: true
+              - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+                action: replace
+                regex: (.+)
+                target_label: __metrics_path__
+              - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+                action: replace
+                regex: ([^:]+)(?::\d+)?;(\d+)
+                replacement: $$1:$$2
+                target_label: __address__
+              - action: labelmap
+                regex: __meta_kubernetes_pod_label_(.+)
+              - source_labels: [__meta_kubernetes_pod_node_name]
+                action: keep
+                regex: ${K8S_NODE_NAME}
+              - source_labels: [__meta_kubernetes_namespace]
+                action: replace
+                target_label: K8S_NAMESPACE
+              - source_labels: [__meta_kubernetes_pod_name]
+                action: replace
+                target_label: K8S_POD_NAME
+              - source_labels: [__meta_kubernetes_pod_container_name]
+                action: replace
+                target_label: EKS_Container
 
-    ampexporters:
-      namespaces: ""
-      endpoint: ""
-      resourcetotel: false
-      region: ""
+      exporters:
+        exporter: &ampexporter awsprometheusremotewrite
+        namespaces: ""
+        endpoint: ""
+        resourcetotel: false
+        region: ""
     service:
       metrics:
-        receivers: ["prometheus"]
+        receivers: []
         processors: ["batch/metrics"]
-        exporters: ["awsprometheusremotewrite"]
+        exporters: []
       extensions: ["health_check"]
 
   sidecar:
