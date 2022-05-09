@@ -277,18 +277,18 @@ adotCollector:
         mountPath: "/conf"
     extensions:
       healthCheck: ""
+    processors:
+      timeout: 60s
     cloudwatch:
       enabled: false  
       receivers:
-        receiver: &cwreceiver "awscontainerinsightreceiver"
+        receiver: "awscontainerinsightreceiver"
         collectionInterval: ""
         containerOrchestrator: ""
         addServiceAsAttribute: ""
         preferFullPodName: ""
-      processors:
-        timeout: 60s
       exporters:
-        exporter: &cwexporter "awsemf"
+        exporter: "awsemf"
         namespace: "ContainerInsights"
         logGroupName: ""
         logStreamName: "InputNodeName"
@@ -353,9 +353,9 @@ adotCollector:
           metric_name_selectors:
             - namespace_number_of_running_pods
     amp:
-      enable: true
+      enabled: true
       receivers:
-        receiver: &ampreceiver "prometheus"
+        receiver: "prometheus"
         scrapeInterval: 15s
         scrapeTimeout: 10s
         scrapeConfigs: |
@@ -393,11 +393,11 @@ adotCollector:
                 target_label: EKS_Container
 
       exporters:
-        exporter: &ampexporter awsprometheusremotewrite
-        namespaces: ""
-        endpoint: ""
+        exporter: "awsprometheusremotewrite"
+        namespaces: "prom-metrics"
+        endpoint: "https://aps-workspaces.us-west-2.amazonaws.com/workspaces/ws-14af7922-16ed-4d74-989a-123208a0f903/api/v1/remote_write"
         resourcetotel: false
-        region: ""
+        region: "us-west-2"
     service:
       metrics:
         receivers: []

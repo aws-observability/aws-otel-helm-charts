@@ -1,4 +1,7 @@
 {{- if .Values.adotCollector.daemonSet.enabled }}
+
+
+
 # ConfigMap for ADOT Collector as a DaemonSet with the specified configurations, including configured values from values.yaml.
 apiVersion: v1
 kind: ConfigMap
@@ -19,7 +22,7 @@ data:
         container_orchestrator: {{ .Values.adotCollector.daemonSet.cloudwatch.receivers.containerOrchestrator }}
         add_service_as_attribute: {{ .Values.adotCollector.daemonSet.cloudwatch.receivers.addServiceAsAttribute }}
         prefer_full_pod_name: {{ .Values.adotCollector.daemonSet.cloudwatch.receivers.preferFullPodName }}
-      {{ - end }}
+      {{- end }}
       {{- if .Values.adotCollector.daemonSet.amp.enabled }}
       prometheus:
         config:
@@ -28,7 +31,7 @@ data:
             scrape_timeout: {{ .Values.adotCollector.daemonSet.amp.receivers.scrapeTimeout }}
           scrape_configs: 
             {{ .Values.adotCollector.daemonSet.amp.receivers.scrapeConfigs | nindent 10 }}
-      {{ - end }}
+      {{- end }}
     processors:
       batch/metrics:
         timeout: {{ .Values.adotCollector.daemonSet.processors.timeout }}
@@ -45,7 +48,7 @@ data:
         - {{.}}{{- end }}
         metric_declarations:
           {{ .Values.adotCollector.daemonSet.cloudwatch.metricDeclarations | nindent 8 }}
-      {{ - end }}
+      {{- end }}
       {{- if .Values.adotCollector.daemonSet.amp.enabled }}
       awsprometheusremotewrite:
         namespace: {{ .Values.adotCollector.daemonSet.amp.exporters.namespace }}
@@ -55,18 +58,14 @@ data:
         aws_auth:
           region: {{ .Values.adotCollector.daemonSet.amp.exporters.region }}
           service: aps
-        {{ - end }}
+      {{- end }}
     service:
       pipelines:
         metrics:
-          receivers: |
-           - {{- if .Values.adotCollector.daemonSet.amp.enabled }} .Values.adotCollector.daemonSet.amp.receivers.receiver {{- end }}
-           - {{- if .Values.adotCollector.daemonSet.cloudwatch.enabled }} .Values.adotCollector.daemonSet.cloudwatch.receivers.receiver {{- end }}
+          {{- template "receivers_list"}}
           processors: {{- range .Values.adotCollector.daemonSet.service.metrics.processors }}
           - {{.}} {{- end }}
-          exporters: |
-          - {{- if .Values.adotCollector.daemonSet.amp.enabled }} .Values.adotCollector.daemonSet.amp.exporters.exporter {{- end }}
-          - {{- if .Values.adotCollector.daemonSet.cloudwatch.enabled }} .Values.adotCollector.daemonSet.cloudwatch.exporters.exporter {{- end }}
+          {{- template "exporters_list"}}
       extensions: {{- range .Values.adotCollector.daemonSet.service.extensions }}
       - {{.}} {{- end }}
 {{- end }}
