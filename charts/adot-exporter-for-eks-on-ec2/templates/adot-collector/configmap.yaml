@@ -1,4 +1,7 @@
 {{- if .Values.adotCollector.daemonSet.enabled }}
+
+
+
 # ConfigMap for ADOT Collector as a DaemonSet with the specified configurations, including configured values from values.yaml.
 apiVersion: v1
 kind: ConfigMap
@@ -8,57 +11,61 @@ metadata:
   labels:
     app: {{ .Values.adotCollector.daemonSet.configMap.app }}
     component: {{ .Values.adotCollector.daemonSet.configMap.component }}
-    {{- include "adotCollector.daemonSet.labels" . | indent 4 }}
 data:
   adot-config:  |
     extensions:
       health_check: {{ .Values.adotCollector.daemonSet.extensions.healthCheck }}
     receivers:
+      {{- if .Values.adotCollector.daemonSet.cloudwatch.enabled }}
       awscontainerinsightreceiver:
-        collection_interval: {{ .Values.adotCollector.daemonSet.cwreceivers.collectionInterval }}
-        container_orchestrator: {{ .Values.adotCollector.daemonSet.cwreceivers.containerOrchestrator }}
-        add_service_as_attribute: {{ .Values.adotCollector.daemonSet.cwreceivers.addServiceAsAttribute }}
-        prefer_full_pod_name: {{ .Values.adotCollector.daemonSet.cwreceivers.preferFullPodName }}
+        collection_interval: {{ .Values.adotCollector.daemonSet.cloudwatch.receivers.collectionInterval }}
+        container_orchestrator: {{ .Values.adotCollector.daemonSet.cloudwatch.receivers.containerOrchestrator }}
+        add_service_as_attribute: {{ .Values.adotCollector.daemonSet.cloudwatch.receivers.addServiceAsAttribute }}
+        prefer_full_pod_name: {{ .Values.adotCollector.daemonSet.cloudwatch.receivers.preferFullPodName }}
+      {{- end }}
+      {{- if .Values.adotCollector.daemonSet.amp.enabled }}
       prometheus:
         config:
           global:
-            scrape_interval: {{ .Values.adotCollector.daemonSet.ampreceivers.scrapeInterval }}
-            scrape_timeout: {{ .Values.adotCollector.daemonSet.ampreceivers.scrapeTimeout }}
+            scrape_interval: {{ .Values.adotCollector.daemonSet.amp.receivers.scrapeInterval }}
+            scrape_timeout: {{ .Values.adotCollector.daemonSet.amp.receivers.scrapeTimeout }}
           scrape_configs: 
-            {{ .Values.adotCollector.daemonSet.ampreceivers.scrapeConfigs | nindent 12 }}
+            {{ .Values.adotCollector.daemonSet.amp.receivers.scrapeConfigs | nindent 10 }}
+      {{- end }}
     processors:
       batch/metrics:
         timeout: {{ .Values.adotCollector.daemonSet.processors.timeout }}
     exporters:
+      {{- if .Values.adotCollector.daemonSet.cloudwatch.enabled }}
       awsemf:
-        namespace: {{ .Values.adotCollector.daemonSet.cwexporters.namespace }}
+        namespace: {{ .Values.adotCollector.daemonSet.cloudwatch.exporters.namespace }}
         log_group_name: '/aws/containerinsights/{{ .Values.clusterName }}/performance'
-        log_stream_name: {{ .Values.adotCollector.daemonSet.cwexporters.logStreamName }}
+        log_stream_name: {{ .Values.adotCollector.daemonSet.cloudwatch.exporters.logStreamName }}
         resource_to_telemetry_conversion:
-          enabled: {{ .Values.adotCollector.daemonSet.cwexporters.enabled }}
-        dimension_rollup_option: {{ .Values.adotCollector.daemonSet.cwexporters.dimensionRollupOption }}
-        parse_json_encoded_attr_values: {{- range .Values.adotCollector.daemonSet.cwexporters.parseJsonEncodedAttrValues }}
+          enabled: {{ .Values.adotCollector.daemonSet.cloudwatch.exporters.enabled }}
+        dimension_rollup_option: {{ .Values.adotCollector.daemonSet.cloudwatch.exporters.dimensionRollupOption }}
+        parse_json_encoded_attr_values: {{- range .Values.adotCollector.daemonSet.cloudwatch.exporters.parseJsonEncodedAttrValues }}
         - {{.}}{{- end }}
         metric_declarations:
-          {{ .Values.adotCollector.daemonSet.metricDeclarations | nindent 10 }}
+          {{ .Values.adotCollector.daemonSet.cloudwatch.metricDeclarations | nindent 8 }}
+      {{- end }}
+      {{- if .Values.adotCollector.daemonSet.amp.enabled }}
       awsprometheusremotewrite:
-        namespace: {{ .Values.adotCollector.daemonSet.ampexporters.namespace }}
-        endpoint: {{ .Values.adotCollector.daemonSet.ampexporters.endpoint }}
+        namespace: {{ .Values.adotCollector.daemonSet.amp.exporters.namespace }}
+        endpoint: {{ .Values.adotCollector.daemonSet.amp.exporters.endpoint }}
         resource_to_telemetry_conversion: 
-          enabled: {{ .Values.adotCollector.daemonSet.ampexporters.resourcetotel }}
+          enabled: {{ .Values.adotCollector.daemonSet.amp.exporters.resourcetotel }}
         aws_auth:
-          region: {{ .Values.adotCollector.daemonSet.ampexporters.region }}
+          region: {{ .Values.adotCollector.daemonSet.amp.exporters.region }}
           service: aps
-        
+      {{- end }}
     service:
       pipelines:
         metrics:
-          receivers: {{- range .Values.adotCollector.daemonSet.service.metrics.receivers }}
-          - {{.}} {{- end }}
+          {{- template "receivers_list"}}
           processors: {{- range .Values.adotCollector.daemonSet.service.metrics.processors }}
           - {{.}} {{- end }}
-          exporters: {{- range .Values.adotCollector.daemonSet.service.metrics.exporters }}
-          - {{.}} {{- end }}
+          {{- template "exporters_list"}}
       extensions: {{- range .Values.adotCollector.daemonSet.service.extensions }}
       - {{.}} {{- end }}
 {{- end }}

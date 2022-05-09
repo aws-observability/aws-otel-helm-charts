@@ -95,3 +95,21 @@ Allow the release namespace to be overridden for multi-namespace deployments in 
     {{- .Values.adotCollector.sidecar.namespace -}}
   {{- end -}}
 {{- end -}}
+
+{{/*
+Create a custom receivers list.
+*/}}
+{{- define "receivers_list"}}
+  receivers :
+  - {{- if .Values.adotCollector.daemonSet.amp.enabled }} {{ .Values.adotCollector.daemonSet.amp.receivers.receiver }} {{- end }}
+  - {{- if .Values.adotCollector.daemonSet.cloudwatch.enabled }} {{ .Values.adotCollector.daemonSet.cloudwatch.receivers.receiver }} {{- end }}
+{{- end }}
+
+{{/*
+Create a custom exporters list.
+*/}}
+{{- define "exporters_list"}}
+  exporters:
+  - {{- if .Values.adotCollector.daemonSet.amp.enabled }} {{ .Values.adotCollector.daemonSet.amp.exporters.exporter }} {{- end }}
+  - {{- if .Values.adotCollector.daemonSet.cloudwatch.enabled }} {{ .Values.adotCollector.daemonSet.cloudwatch.exporters.exporter }} {{- end }}
+{{- end }}
