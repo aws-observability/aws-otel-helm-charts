@@ -3,6 +3,8 @@
 Thank you for your interest in contributing to our project. Whether it's a bug report, new feature, correction, or additional
 documentation, we greatly value feedback and contributions from our community.
 
+While we value any contributions and do our best to get back to you with questions in a timely manner, please note that we're releasing new versions not on a fixed schedule. In other words, we review (and merge) contributions on a best-effort basis.
+
 Please read through this document before submitting any issues or pull requests to ensure we have all the necessary
 information to effectively respond to your bug report or contribution.
 
