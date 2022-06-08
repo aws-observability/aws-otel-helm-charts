@@ -53,13 +53,15 @@ data:
         
     service:
       pipelines:
-        metrics:
-          receivers: {{- range .Values.adotCollector.daemonSet.service.metrics.receivers }}
+        {{- range .Values.adotCollector.daemonSet.service.pipelines }}
+        {{ .name }}:
+          receivers: {{- range .receivers }}
           - {{.}} {{- end }}
-          processors: {{- range .Values.adotCollector.daemonSet.service.metrics.processors }}
+          processors: {{- range .processors }}
           - {{.}} {{- end }}
-          exporters: {{- range .Values.adotCollector.daemonSet.service.metrics.exporters }}
+          exporters: {{- range .exporters }}
           - {{.}} {{- end }}
+        {{- end }}
       extensions: {{- range .Values.adotCollector.daemonSet.service.extensions }}
       - {{.}} {{- end }}
 {{- end }}

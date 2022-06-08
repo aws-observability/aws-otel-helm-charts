@@ -1081,32 +1081,38 @@
                         "service": {
                             "type": "object",
                             "properties": {
-                                "metrics": {
-                                    "type": "object",
-                                    "properties": {
-                                        "receivers": {
-                                            "type": "array",
-                                            "items": [
-                                                {
-                                                    "type": "string"
-                                                }
-                                            ]
-                                        },
-                                        "processors": {
-                                            "type": "array",
-                                            "items": [
-                                                {
-                                                    "type": "string"
-                                                }
-                                            ]
-                                        },
-                                        "exporters": {
-                                            "type": "array",
-                                            "items": [
-                                                {
-                                                    "type": "string"
-                                                }
-                                            ]
+                                "pipelines": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "receivers": {
+                                                "type": "array",
+                                                "items": [
+                                                    {
+                                                        "type": "string"
+                                                    }
+                                                ]
+                                            },
+                                            "processors": {
+                                                "type": "array",
+                                                "items": [
+                                                    {
+                                                        "type": "string"
+                                                    }
+                                                ]
+                                            },
+                                            "exporters": {
+                                                "type": "array",
+                                                "items": [
+                                                    {
+                                                        "type": "string"
+                                                    }
+                                                ]
+                                            }
                                         }
                                     }
                                 },

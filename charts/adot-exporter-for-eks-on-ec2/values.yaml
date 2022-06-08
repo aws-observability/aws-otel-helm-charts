@@ -397,7 +397,8 @@ adotCollector:
       resourcetotel: false
       region: ""
     service:
-      metrics:
+      pipelines:
+      - name: "metrics"
         receivers: ["prometheus"]
         processors: ["batch/metrics"]
         exporters: ["awsprometheusremotewrite"]
