@@ -2,12 +2,12 @@ apiVersion: v2
 name: adot-exporter-for-eks-on-ec2
 description: A Helm chart for collecting metrics using ADOT Collector and logs using Fluent Bit to send to AWS monitoring services.
 type: application
-version: 0.5.0
-appVersion: "0.17.0"
+version: 0.6.0
+appVersion: "0.18.0"
 kubeVersion: ">=1.16.0-0"
 maintainers:
-  - name: Ruthvik Ravindra
-    email: raviru@amazon.com
+  - name: Bryan Aguilar
+    email: bryaag@amazon.com
 home: https://github.com/aws-observability/aws-otel-helm-charts/adot-exporter-for-eks-on-ec2
 sources:
   - https://github.com/aws-observability/aws-otel-helm-charts/adot-exporter-for-eks-on-ec2
