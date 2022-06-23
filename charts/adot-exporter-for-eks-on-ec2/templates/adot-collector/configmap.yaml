@@ -1,4 +1,4 @@
-{{- if .Values.adotCollector.daemonSet.enabled }}
+{{- if and .Values.adotCollector.daemonSet.enabled .Values.adotCollector.daemonSet.createConfigMap }}
 # ConfigMap for ADOT Collector as a DaemonSet with the specified configurations, including configured values from values.yaml.
 apiVersion: v1
 kind: ConfigMap

@@ -204,6 +204,7 @@ adotCollector:
       annotations: {}
     clusterRoleName: "adot-collector-role"
     clusterRoleBindingName: "adot-collector-role-binding"
+    createConfigMap: true
     configMap:
       name: "adot-conf"
       app: "opentelemetry"

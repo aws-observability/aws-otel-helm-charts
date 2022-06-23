@@ -661,6 +661,9 @@
                         "clusterRoleBindingName": {
                             "type": "string"
                         },
+                        "createConfigMap": {
+                            "type": "boolean"
+                        },
                         "configMap": {
                             "type": "object",
                             "properties": {
