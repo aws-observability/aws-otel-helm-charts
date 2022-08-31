@@ -13,6 +13,9 @@ data:
   adot-config:  |
     extensions:
       health_check: {{ .Values.adotCollector.daemonSet.extensions.healthCheck }}
+      sigv4auth:
+        service: {{ .Values.adotCollector.daemonSet.extensions.sigv4auth.service }}
+        region: {{ .Values.adotCollector.daemonSet.extensions.sigv4auth.region }}
     receivers:
       awscontainerinsightreceiver:
         collection_interval: {{ .Values.adotCollector.daemonSet.cwreceivers.collectionInterval }}
@@ -42,14 +45,13 @@ data:
         - {{.}}{{- end }}
         metric_declarations:
           {{ .Values.adotCollector.daemonSet.metricDeclarations | nindent 10 }}
-      awsprometheusremotewrite:
+      prometheusremotewrite:
         namespace: {{ .Values.adotCollector.daemonSet.ampexporters.namespace }}
         endpoint: {{ .Values.adotCollector.daemonSet.ampexporters.endpoint }}
         resource_to_telemetry_conversion: 
-          enabled: {{ .Values.adotCollector.daemonSet.ampexporters.resourcetotel }}
-        aws_auth:
-          region: {{ .Values.adotCollector.daemonSet.ampexporters.region }}
-          service: aps
+          enabled: {{ .Values.adotCollector.daemonSet.ampexporters.resourcetootel }}
+        auth:
+          authenticator: {{ .Values.adotCollector.daemonSet.service.extensions.sigv4auth }}
         
     service:
       pipelines:

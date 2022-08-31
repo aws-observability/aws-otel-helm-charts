@@ -1013,6 +1013,12 @@
                             "properties": {
                                 "healthCheck": {
                                     "type": "string"
+                                },
+                                "service": {
+                                    "type": "string"
+                                },
+                                "region": {
+                                    "type": "string"
                                 }
                             }
                         },
