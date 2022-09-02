@@ -290,7 +290,7 @@ adotCollector:
       healthCheck: ""
       sigv4auth:
         service: "aps"
-        region: "user-region"
+        region: ""
     cwreceivers:
       collectionInterval: ""
       containerOrchestrator: ""

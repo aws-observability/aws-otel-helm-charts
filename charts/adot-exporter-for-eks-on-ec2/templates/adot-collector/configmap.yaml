@@ -15,7 +15,7 @@ data:
       health_check: {{ .Values.adotCollector.daemonSet.extensions.healthCheck }}
       sigv4auth:
         service: {{ .Values.adotCollector.daemonSet.extensions.sigv4auth.service }}
-        region: {{ .Values.adotCollector.daemonSet.extensions.sigv4auth.region }}
+        region: {{ .Values.awsRegion }}
     receivers:
       awscontainerinsightreceiver:
         collection_interval: {{ .Values.adotCollector.daemonSet.cwreceivers.collectionInterval }}
