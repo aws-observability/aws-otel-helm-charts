@@ -1044,11 +1044,14 @@
                                 "healthCheck": {
                                     "type": "string"
                                 },
-                                "service": {
-                                    "type": "string"
-                                },
-                                "region": {
-                                    "type": "string"
+                                "sigv4auth": {
+                                    "type": "object",
+                                    "properties": {
+                                        "region": {
+                                            "type": "string"
+
+                                        }
+                                    }
                                 }
                             }
                         },

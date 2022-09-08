@@ -289,7 +289,6 @@ adotCollector:
     extensions:
       healthCheck: ""
       sigv4auth:
-        service: "aps"
         region: ""
     cwreceivers:
       collectionInterval: ""

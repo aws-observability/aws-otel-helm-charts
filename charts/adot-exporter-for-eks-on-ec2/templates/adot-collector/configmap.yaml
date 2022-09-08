@@ -14,7 +14,6 @@ data:
     extensions:
       health_check: {{ .Values.adotCollector.daemonSet.extensions.healthCheck }}
       sigv4auth:
-        service: {{ .Values.adotCollector.daemonSet.extensions.sigv4auth.service }}
         region: {{ .Values.awsRegion }}
     receivers:
       awscontainerinsightreceiver:
@@ -51,7 +50,7 @@ data:
         resource_to_telemetry_conversion: 
           enabled: {{ .Values.adotCollector.daemonSet.ampexporters.resourcetootel }}
         auth:
-          authenticator: {{ .Values.adotCollector.daemonSet.service.extensions.sigv4auth }}
+          authenticator: {{ .Values.adotCollector.daemonSet.extensions.sigv4auth }}
         
     service:
       pipelines:
