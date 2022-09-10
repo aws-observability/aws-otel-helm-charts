@@ -189,7 +189,7 @@ adotCollector:
   image:
     name: "aws-otel-collector"
     repository: "amazon/aws-otel-collector"
-    tag: "v0.17.0"
+    tag: "v0.21.1"
     daemonSetPullPolicy: "IfNotPresent"
     sidecarPullPolicy: "Always"
   daemonSet:
@@ -256,6 +256,9 @@ adotCollector:
       - name: "varlibdocker"
         hostPath:
           path: "/var/lib/docker"
+      - name: "containerdsock"
+        hostPath:
+          path: "/run/containerd/containerd.sock"
       - name: "sys"
         hostPath:
           path: "/sys"
@@ -272,6 +275,9 @@ adotCollector:
       - name: "varlibdocker"
         mountPath: "/var/lib/docker"
         readOnly: true
+      - name: "containerdsock"
+        mountPath: "/run/containerd/containerd.sock"
+        readOnly: true
       - name: "sys"
         mountPath: "/sys"
         readOnly: true
@@ -282,6 +288,8 @@ adotCollector:
         mountPath: "/conf"
     extensions:
       healthCheck: ""
+      sigv4auth:
+        region: ""
     cwreceivers:
       collectionInterval: ""
       containerOrchestrator: ""
@@ -394,14 +402,14 @@ adotCollector:
     ampexporters:
       namespaces: ""
       endpoint: ""
-      resourcetotel: false
-      region: ""
+      resourcetootel: false
+      authenticator: "sigv4auth"
     service:
       metrics:
         receivers: ["prometheus"]
         processors: ["batch/metrics"]
-        exporters: ["awsprometheusremotewrite"]
-      extensions: ["health_check"]
+        exporters: ["prometheusremotewrite"]
+      extensions: ["health_check", "sigv4auth"]
 
   sidecar:
     enabled: false

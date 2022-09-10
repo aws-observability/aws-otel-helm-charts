@@ -13,7 +13,7 @@ The above-mentioned deployment modes are explained in-detail in the following se
 
 ### Default Mode (Offload metrics to only Amazon Managed Prometheus)
 
- By default, the helm chart is configured to offload metrics data to the Amazon Managed Prometheus(AMP) workspace only. You need update the `values.yaml` file to add the Remote Write Endpoint URL and the region for your AMP workspace. By default, the region is set to `us-west-2`. By default, only the `prometheus` receiver and `awsprometheusremotewrite` exporter is included to be able to send metrics to AMP.
+ By default, the helm chart is configured to offload metrics data to the Amazon Managed Prometheus(AMP) workspace only. You need update the `values.yaml` file to add the Remote Write Endpoint URL and the region for your AMP workspace. By default, the region is set to `us-west-2`. By default, only the `prometheus` receiver and `prometheusremotewrite` exporter is included to be able to send metrics to AMP.
 
 ```console
 helm install \  
@@ -69,7 +69,7 @@ namespaces, they are successfully deployed.
 
 ### Offload metrics to both CloudWatch and Amazon Managed Prometheus(AMP)
 
-To send metrics to CloudWatch, you need to enable the CloudWatch pipeline. You can either update the `values.yaml` to change the values of the following variable `exporters` and then run the `helm install` command as above. Include both `prometheus`, `awscontainerinsightreceiver` as receivers, `awsemf`,`awsprometheusremotewrite` exporter to send metrics to both CloudWatch and AMP.
+To send metrics to CloudWatch, you need to enable the CloudWatch pipeline. You can either update the `values.yaml` to change the values of the following variable `exporters` and then run the `helm install` command as above. Include both `prometheus`, `awscontainerinsightreceiver` as receivers, `awsemf`,`prometheusremotewrite` exporter to send metrics to both CloudWatch and AMP.
 
 ```console
 helm install \  

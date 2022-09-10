@@ -919,12 +919,42 @@
                                             }
                                         }
                                     }
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "hostPath": {
+                                            "type": "object",
+                                            "properties": {
+                                                "path": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             ]
                         },
                         "volumeMounts": {
                             "type": "array",
                             "items": [
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "mountPath": {
+                                            "type": "string"
+                                        },
+                                        "readOnly": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                },
                                 {
                                     "type": "object",
                                     "properties": {
@@ -1012,6 +1042,9 @@
                             "type": "object",
                             "properties": {
                                 "healthCheck": {
+                                    "type": "string"
+                                },
+                                "region": {
                                     "type": "string"
                                 }
                             }
