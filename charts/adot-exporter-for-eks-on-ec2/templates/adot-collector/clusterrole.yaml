@@ -30,4 +30,7 @@ rules:
     resources: ["leases"]
     resourceNames: ["otel-container-insight-clusterleader"]
     verbs: ["get", "update", "create"]
+  - apiGroups: ["coordination.k8s.io"]
+    resources: ["leases"]
+    verbs: ["get", "create"]
 {{- end }}
