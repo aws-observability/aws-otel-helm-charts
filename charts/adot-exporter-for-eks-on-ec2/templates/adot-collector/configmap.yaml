@@ -37,6 +37,7 @@ data:
         namespace: {{ .Values.adotCollector.daemonSet.cwexporters.namespace }}
         log_group_name: '/aws/containerinsights/{{ .Values.clusterName }}/performance'
         log_stream_name: {{ .Values.adotCollector.daemonSet.cwexporters.logStreamName }}
+        region: {{ .Values.awsRegion }}
         resource_to_telemetry_conversion:
           enabled: {{ .Values.adotCollector.daemonSet.cwexporters.enabled }}
         dimension_rollup_option: {{ .Values.adotCollector.daemonSet.cwexporters.dimensionRollupOption }}
