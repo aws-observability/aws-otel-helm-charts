@@ -16,7 +16,7 @@ $ helm repo add aws-observability https://aws-observability.github.io/aws-otel-h
 $ helm search repo aws-observability # Run this command in order to see the charts.
 ```
 
-###### Warning: Fluent Bit and Fargate logging templates are deprecated and will be removed from the Helm chart on December 30th, 2022
+### Warning: Fluent Bit and Fargate logging templates are deprecated and will be removed from the Helm chart on December 30th, 2022
 
 There is planned work in the upstream OpenTelemetry repositories to stabilize logs in 2023, and so that means that our Helm Chart will have to be updated to reflect these eventual changes.  The changes required for our Helm Chart include:
 
