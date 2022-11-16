@@ -45,4 +45,3 @@ Please note that as per policy, we're providing support via GitHub on a best eff
 # Maintainers
 
 - [Anthony Mirabella](https://github.com/Aneurysm9)
-- [Ruthvik Ravindra](https://github.com/ruthvik17)
