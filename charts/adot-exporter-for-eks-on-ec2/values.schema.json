@@ -1070,12 +1070,7 @@
                             }
                         },
                         "processors": {
-                            "type": "object",
-                            "properties": {
-                                "timeout": {
-                                    "type": "string"
-                                }
-                            }
+                            "type": "string"
                         },
                         "exporters": {
                             "type": "object",

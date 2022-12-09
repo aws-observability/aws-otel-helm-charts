@@ -296,8 +296,9 @@ adotCollector:
       addServiceAsAttribute: ""
       preferFullPodName: ""
       addFullPodNameMetricLabel: ""
-    processors:
-      timeout: 60s
+    processors: |
+      batch/metrics:
+        timeout: 60s
     cwexporters:
       namespace: "ContainerInsights"
       logGroupName: ""

@@ -27,11 +27,10 @@ data:
           global:
             scrape_interval: {{ .Values.adotCollector.daemonSet.ampreceivers.scrapeInterval }}
             scrape_timeout: {{ .Values.adotCollector.daemonSet.ampreceivers.scrapeTimeout }}
-          scrape_configs: 
+          scrape_configs:
             {{ .Values.adotCollector.daemonSet.ampreceivers.scrapeConfigs | nindent 12 }}
     processors:
-      batch/metrics:
-        timeout: {{ .Values.adotCollector.daemonSet.processors.timeout }}
+      {{- .Values.adotCollector.daemonSet.processors | nindent 6 }}
     exporters:
       awsemf:
         namespace: {{ .Values.adotCollector.daemonSet.cwexporters.namespace }}
@@ -48,11 +47,11 @@ data:
       prometheusremotewrite:
         namespace: {{ .Values.adotCollector.daemonSet.ampexporters.namespace }}
         endpoint: {{ .Values.adotCollector.daemonSet.ampexporters.endpoint }}
-        resource_to_telemetry_conversion: 
+        resource_to_telemetry_conversion:
           enabled: {{ .Values.adotCollector.daemonSet.ampexporters.resourcetootel }}
         auth:
           authenticator: {{ .Values.adotCollector.daemonSet.ampexporters.authenticator }}
-        
+
     service:
       pipelines:
         metrics:
