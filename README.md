@@ -34,14 +34,17 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 
 This project is licensed under the Apache 2.0 License.
 
-# ADOT Roadmap 
+## ADOT Roadmap 
 
 You can track upcoming features and enhancements for ADOT on its [roadmap](https://github.com/orgs/aws-observability/projects/4).
 
-# Support
+## Support
 
 Please note that as per policy, we're providing support via GitHub on a best effort basis. However, if you have AWS Enterprise Support you can create a ticket and we will provide direct support within the respective SLAs.
 
-# Maintainers
+## Security issue notifications
+If you discover a potential security issue in this project we ask that you notify AWS/Amazon Security via our [vulnerability reporting page](http://aws.amazon.com/security/vulnerability-reporting/). Please do **not** create a public github issue.
+
+## Maintainers
 
 - [Anthony Mirabella](https://github.com/Aneurysm9)
