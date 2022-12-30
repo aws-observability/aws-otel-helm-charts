@@ -1,9 +1,9 @@
 # ADOT Helm chart for EKS on EC2 metrics and logs to Amazon CloudWatch Container Insights
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-This [Helm](https://helm.sh/) chart provides easy to use [AWS Elastic Kubernetes Service](https://aws.amazon.com/eks/) (EKS) on [AWS Elastic Compute Cloud](https://aws.amazon.com/ec2/) (EC2) monitoring with [AWS Distro for OpenTelemetry(ADOT) Collector](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html) for metrics and [Fluent Bit](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html) for logs. Therefore, the Helm chart is useful for customers who use EKS on EC2 and want to collect metrics and logs from clusters. The metrics will be sent to Amazon CloudWatch Container Insights and [Amazon Managed Service for Prometheus](https://aws.amazon.com/prometheus/?trk=f6e79447-9b4c-4310-8415-1a76de2de47f&sc_channel=ps&sc_campaign=acquisition&sc_medium=ACQ-P|PS-GO|Non-Brand|Desktop|SU|Management%20Tools|Solution|US|EN|DSA&ef_id=CjwKCAiAg6yRBhBNEiwAeVyL0KLIKHm3fznhVURTI6T-WBvANCmqo3r0-pYp_U82lIDDMmXRXDk0DBoCohQQAvD_BwE:G:s&s_kwcid=AL!4422!3!579408286031!!!g!!) (AMP) and the logs will be sent to Amazon Cloudwatch.
+This [Helm](https://helm.sh/) chart provides easy to use [AWS Elastic Kubernetes Service](https://aws.amazon.com/eks/) (EKS) on [AWS Elastic Compute Cloud](https://aws.amazon.com/ec2/) (EC2) monitoring with [AWS Distro for OpenTelemetry(ADOT) Collector](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html) for metrics. Therefore, the Helm chart is useful for customers who use EKS on EC2 and want to collect metrics from clusters. The metrics will be sent to Amazon CloudWatch Container Insights and [Amazon Managed Service for Prometheus](https://aws.amazon.com/prometheus/?trk=f6e79447-9b4c-4310-8415-1a76de2de47f&sc_channel=ps&sc_campaign=acquisition&sc_medium=ACQ-P|PS-GO|Non-Brand|Desktop|SU|Management%20Tools|Solution|US|EN|DSA&ef_id=CjwKCAiAg6yRBhBNEiwAeVyL0KLIKHm3fznhVURTI6T-WBvANCmqo3r0-pYp_U82lIDDMmXRXDk0DBoCohQQAvD_BwE:G:s&s_kwcid=AL!4422!3!579408286031!!!g!!) (AMP).
 
-The Helm chart configured in this repository deploys the ADOT Collector and Fluent Bit as [DaemonSets](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/) and is ready to collect metrics and logs and send them to Amazon CloudWatch Container Insights and AMP.
+The Helm chart configured in this repository deploys the ADOT Collector as [DaemonSets](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/) and is ready to collect metrics and logs and send them to Amazon CloudWatch Container Insights and AMP.
 
 ## Helm Chart Structure
 ```console
@@ -14,17 +14,6 @@ adot-exporter-for-eks-on-ec2/
 |   |-- validate-charts.sh
 |-- templates/
 |   |-- NOTES.txt
-|   |-- aws-for-fluent-bit/
-|   |   |-- _helpers.tpl
-|   |   |-- clusterrole.yaml
-|   |   |-- clusterrolebinding.yaml
-|   |   |-- configmap.yaml
-|   |   |-- daemonset.yaml
-|   |   |-- namespace.yaml
-|   |   |-- serviceaccount.yaml
-|   |-- aws-fargate-logging/
-|   |   |-- configmap.yaml
-|   |   |-- namespace.yaml
 |   |-- adot-collector/
 |   |   |-- _helpers.tpl
 |   |   |-- clusterrole.yaml
@@ -46,7 +35,7 @@ adot-exporter-for-eks-on-ec2/
 |-- README.md
 ```
 
-`templates` folder contains two subfolders, `aws-for-fluent-bit` and `aws-otel-collector`, and each subfolder contains template files that will be evaluated with the default values configured in `values.yaml.`
+`templates` folder contains one subfolders, `aws-otel-collector`, and this subfolder contains template files that will be evaluated with the default values configured in `values.yaml.`
 
 `script` folder contains shell script files to run chart validation and lint tests with [Helm Lint](https://helm.sh/docs/helm/helm_lint/) and [Kubeval](https://kubeval.instrumenta.dev/).
 
@@ -130,8 +119,6 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md).
 [Ruthvik Ravindra](https://github.com/ruthvik17)
 
 ## Other useful links
-
-[Set up Fluent Bit as a DaemonSet to send logs to CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html)
 
 [Using AWS Distro for OpenTelemetry](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html)
 
