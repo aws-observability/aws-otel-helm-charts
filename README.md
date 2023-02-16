@@ -30,6 +30,8 @@ Therefore, we recommend revising any code that utilizes these templates by Decem
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 
+> NOTE: we're currently not accepting new PRs as we're evaluating our priorities concerning the ADOT Helm Charts. We plan to update this repo with a concrete timeline with the new policy by end of March 2023.
+
 ## License
 
 This project is licensed under the Apache 2.0 License.
