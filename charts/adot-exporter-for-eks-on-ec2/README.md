@@ -7,14 +7,14 @@ The Helm chart configured in this repository deploys the ADOT Collector as [Daem
 
 ## :warning: Warning: Fluent Bit and Fargate logging templates are deprecated and were removed from the Helm chart on December 30th, 2022 (>= 0.11.0)
 
-There is planned work in the upstream OpenTelemetry repositories to stabilize logs in 2023, and so that means that our Helm Chart will have to be updated to reflect these eventual changes.  The changes required for our Helm Chart include:
+There is planned work in the upstream OpenTelemetry repositories to stabilize logs, and so that means that our Helm Chart will have to be updated to reflect these eventual changes.  The changes required for our Helm Chart include:
 
 * Removing the [Fluent Bit logging templates](https://github.com/aws-observability/aws-otel-helm-charts/tree/main/charts/adot-exporter-for-eks-on-ec2/templates/aws-for-fluent-bit)
 * Removing the [Fargate logging templates](https://github.com/aws-observability/aws-otel-helm-charts/tree/main/charts/adot-exporter-for-eks-on-ec2/templates/aws-fargate-logging)
 
 Therefore, we recommend revising any code that utilizes these templates by December 30th, 2022 or continue to use the version of the Helm Chart that pre-dates December 30th (<= 0.10.0), 2022 to avoid any issues. As an alternative, you can also make use of the [`aws-for-fluent-bit`](https://github.com/aws/eks-charts/tree/master/stable/aws-for-fluent-bit) Helm Chart ([more details](https://github.com/aws-observability/aws-otel-helm-charts/issues/88)).
 
-Once logs are stabilized upstream and implemented into our Helm Chart in 2023, a new version of the Helm Chart will be released and users may upgrade to this instance instead.  Thank you for your cooperation.
+Once logs are stabilized upstream and implemented, a new version of the Helm Chart will be released and users may upgrade to this instance instead.  Thank you for your cooperation.
 
 ## Helm Chart Structure
 ```console
