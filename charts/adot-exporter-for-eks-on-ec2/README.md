@@ -165,7 +165,6 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
 To learn more about how to use AWS Distro for OpenTelemetry to collect data for your observability solution, check out the hands-on [AWS Observability workshop](https://observability.workshop.aws/en/adot.html). For any questions and issues, please feel free to reach out via [AWS OTeL Community](https://github.com/aws-observability/aws-otel-community/issues).
 
-
 ## License
 
 Apache 2.0 License.
