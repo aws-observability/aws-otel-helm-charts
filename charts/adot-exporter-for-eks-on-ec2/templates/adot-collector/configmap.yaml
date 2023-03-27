@@ -11,57 +11,6 @@ metadata:
     {{- include "adotCollector.daemonSet.labels" . | indent 4 }}
 data:
   adot-config:  |
-    extensions:
-      health_check: {{ .Values.adotCollector.daemonSet.extensions.healthCheck }}
-      sigv4auth:
-        region: {{ .Values.awsRegion }}
-    receivers:
-      awscontainerinsightreceiver:
-        collection_interval: {{ .Values.adotCollector.daemonSet.cwreceivers.collectionInterval }}
-        container_orchestrator: {{ .Values.adotCollector.daemonSet.cwreceivers.containerOrchestrator }}
-        add_service_as_attribute: {{ .Values.adotCollector.daemonSet.cwreceivers.addServiceAsAttribute }}
-        prefer_full_pod_name: {{ .Values.adotCollector.daemonSet.cwreceivers.preferFullPodName }}
-        add_full_pod_name_metric_label: {{ .Values.adotCollector.daemonSet.cwreceivers.addFullPodNameMetricLabel }}
-      prometheus:
-        config:
-          global:
-            scrape_interval: {{ .Values.adotCollector.daemonSet.ampreceivers.scrapeInterval }}
-            scrape_timeout: {{ .Values.adotCollector.daemonSet.ampreceivers.scrapeTimeout }}
-          scrape_configs: 
-            {{ .Values.adotCollector.daemonSet.ampreceivers.scrapeConfigs | nindent 12 }}
-    processors:
-      batch/metrics:
-        timeout: {{ .Values.adotCollector.daemonSet.processors.timeout }}
-    exporters:
-      awsemf:
-        namespace: {{ .Values.adotCollector.daemonSet.cwexporters.namespace }}
-        log_group_name: '/aws/containerinsights/{{ .Values.clusterName }}/performance'
-        log_stream_name: {{ .Values.adotCollector.daemonSet.cwexporters.logStreamName }}
-        region: {{ .Values.awsRegion }}
-        resource_to_telemetry_conversion:
-          enabled: {{ .Values.adotCollector.daemonSet.cwexporters.enabled }}
-        dimension_rollup_option: {{ .Values.adotCollector.daemonSet.cwexporters.dimensionRollupOption }}
-        parse_json_encoded_attr_values: {{- range .Values.adotCollector.daemonSet.cwexporters.parseJsonEncodedAttrValues }}
-        - {{.}}{{- end }}
-        metric_declarations:
-          {{ .Values.adotCollector.daemonSet.metricDeclarations | nindent 10 }}
-      prometheusremotewrite:
-        namespace: {{ .Values.adotCollector.daemonSet.ampexporters.namespace }}
-        endpoint: {{ .Values.adotCollector.daemonSet.ampexporters.endpoint }}
-        resource_to_telemetry_conversion: 
-          enabled: {{ .Values.adotCollector.daemonSet.ampexporters.resourcetootel }}
-        auth:
-          authenticator: {{ .Values.adotCollector.daemonSet.ampexporters.authenticator }}
-        
-    service:
-      pipelines:
-        metrics:
-          receivers: {{- range .Values.adotCollector.daemonSet.service.metrics.receivers }}
-          - {{.}} {{- end }}
-          processors: {{- range .Values.adotCollector.daemonSet.service.metrics.processors }}
-          - {{.}} {{- end }}
-          exporters: {{- range .Values.adotCollector.daemonSet.service.metrics.exporters }}
-          - {{.}} {{- end }}
-      extensions: {{- range .Values.adotCollector.daemonSet.service.extensions }}
-      - {{.}} {{- end }}
+    {{- $mergedConfig := mergeOverwrite .Values.adotCollector.daemonSet.adotConfigDefault .Values.adotCollector.daemonSet.adotConfig }}
+{{ $mergedConfig | toYaml | indent 4 }}
 {{- end }}
