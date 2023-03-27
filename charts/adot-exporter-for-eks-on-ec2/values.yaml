@@ -120,7 +120,7 @@ adotCollector:
         health_check:
       receivers:
         awscontainerinsightreceiver:
-          collection_interval: 61s
+          collection_interval: 60s
           container_orchestrator: eks
       processors:
         batch/metrics:
@@ -131,7 +131,7 @@ adotCollector:
               match_type: regexp
               resource_attributes:
               - Key: Namespace
-                Value: ${accept_namespace_regex}
+                Value: "^default$" # Here we let only metrics from default namespace be exported
         filter/metrics_include:
           metrics:
             include:
@@ -161,17 +161,18 @@ adotCollector:
               - pod_memory_reserved_capacity
               - node_network_tx_bytes
               - node_network_rx_bytes
+        # Override this block to tell the config your real cluster name
         resource/set_attributes:
           attributes:
             - key: ClusterName
-              value: "cluster_name"
+              value: ""
               action: insert
       exporters: {}
         awsemf:
           namespace: "ContainerInsights"
-          log_group_name: "log_group_name"
+          log_group_name: "" # Set here CloudWatch log group name where adot logs will be sent
           log_stream_name: "adot-metrics"
-          region: "region"
+          region: "" # Set here AWS region name where the cluster exists
           dimension_rollup_option: "NoDimensionRollup"
           resource_to_telemetry_conversion:
             enabled: true
@@ -252,6 +253,8 @@ adotCollector:
 
       service:
         pipelines:
+          # These pipelines can be used with above configuration or can be changed.
+          # If no pipeline is defined, above configs are not working, they need to be declared as pipelines to be able to work.
           # metrics/awsemf_namespace_specific:
           #   receivers: ["awscontainerinsightreceiver"]
           #   processors: ["filter/metrics_include", "filter/namespaces", "resource/set_attributes", "batch/metrics"]
