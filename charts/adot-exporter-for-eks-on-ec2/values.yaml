@@ -167,7 +167,7 @@ adotCollector:
             - key: ClusterName
               value: ""
               action: insert
-      exporters: {}
+      exporters:
         awsemf:
           namespace: "ContainerInsights"
           log_group_name: "" # Set here CloudWatch log group name where adot logs will be sent
