@@ -115,53 +115,52 @@ adotCollector:
         readOnly: true
       - name: "adot-config-vol"
         mountPath: "/conf"
-    adotConfig: {}
-    adotConfigDefault:
+    adotConfig:
       extensions:
         health_check:
       receivers:
         awscontainerinsightreceiver:
-      processors:
-        batch/metrics:
-          timeout: 60s
-        filter/namespaces:
-          metrics:
-            include:
-              match_type: regexp
-              resource_attributes:
-                  - Key: Namespace
-                  Value: ^default*
-      exporters:
-        awsemf:
-          namespace: ContainerInsights
-          log_group_name: '/aws/containerinsights/{ClusterName}/performance'
-          log_stream_name: '{NodeName}'
-          resource_to_telemetry_conversion:
-            enabled: true
-          dimension_rollup_option: NoDimensionRollup
-          parse_json_encoded_attr_values: [Sources, kubernetes]
-          metric_declarations:
-            # node metrics
-            - dimensions: [[NodeName, InstanceId, ClusterName]]
-              metric_name_selectors:
-                - node_cpu_utilization
-                - node_memory_utilization
-                - node_network_total_bytes
-                - node_cpu_reserved_capacity
-                - node_memory_reserved_capacity
-                - node_number_of_running_pods
-                - node_number_of_running_containers
-            - dimensions: [[PodName, Namespace, ClusterName], [Service, Namespace, ClusterName], [Namespace, ClusterName], [ClusterName]]
-              metric_name_selectors:
-                  - pod_cpu_utilization
-        logging:
-          loglevel: debug
+      processors: {}
+        # batch/metrics:
+        #   timeout: 60s
+        # filter/namespaces:
+        #   metrics:
+        #     include:
+        #       match_type: regexp
+        #       resource_attributes:
+        #           - Key: Namespace
+        #           Value: ^default*
+      exporters: {}
+        # awsemf:
+        #   namespace: ContainerInsights
+        #   log_group_name: '/aws/containerinsights/{ClusterName}/performance'
+        #   log_stream_name: '{NodeName}'
+        #   resource_to_telemetry_conversion:
+        #     enabled: true
+        #   dimension_rollup_option: NoDimensionRollup
+        #   parse_json_encoded_attr_values: [Sources, kubernetes]
+        #   metric_declarations:
+        #     # node metrics
+        #     - dimensions: [[NodeName, InstanceId, ClusterName]]
+        #       metric_name_selectors:
+        #         - node_cpu_utilization
+        #         - node_memory_utilization
+        #         - node_network_total_bytes
+        #         - node_cpu_reserved_capacity
+        #         - node_memory_reserved_capacity
+        #         - node_number_of_running_pods
+        #         - node_number_of_running_containers
+        #     - dimensions: [[PodName, Namespace, ClusterName], [Service, Namespace, ClusterName], [Namespace, ClusterName], [ClusterName]]
+        #       metric_name_selectors:
+        #           - pod_cpu_utilization
+        # logging:
+        #   loglevel: debug
       service:
         pipelines:
           metrics:
             receivers: [awscontainerinsightreceiver]
-            processors: [batch/metrics, filter/namespaces]
-            exporters: [awsemf]
+            # processors: [batch/metrics, filter/namespaces]
+            # exporters: [awsemf]
         extensions: [health_check]
   sidecar:
     enabled: false
