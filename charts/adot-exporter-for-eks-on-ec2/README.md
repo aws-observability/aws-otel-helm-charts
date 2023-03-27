@@ -78,6 +78,31 @@ $ helm search repo [REPO_NAME] # Run this command in order to see the charts.
 ```
 
 ## Configuration
+To add new features to adot config or override the default one use `adotConfig`:
+```
+adotCollector:
+  daemonSet:
+    adotConfig:
+      ....
+      receivers:
+        awscontainerinsightreceiver:
+          collection_interval: 61s
+          container_orchestrator: eks
+      ....
+      processors:
+        batch/metrics:
+          timeout: 60s
+        filter/metrics_include:
+          metrics:
+            include:
+              match_type: regexp
+              metric_names:
+              - node_cpu_limit
+              - node_cpu_utilization
+              - node_memory_limit
+      ....
+```
+
 To see all configurable options with detailed comments:
 
 ```console
