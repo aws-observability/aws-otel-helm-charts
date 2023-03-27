@@ -102,6 +102,7 @@ adotCollector:
               - node_memory_limit
       ....
 ```
+In `exporters` we declare metrics which can be exported, but only the metrics defined in `filter/metrics_include` processor are exported.
 
 To see all configurable options with detailed comments:
 
