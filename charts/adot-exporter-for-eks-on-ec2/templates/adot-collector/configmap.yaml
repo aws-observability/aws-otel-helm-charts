@@ -11,5 +11,6 @@ metadata:
     {{- include "adotCollector.daemonSet.labels" . | indent 4 }}
 data:
   adot-config:  |
-    {{ .Values.adotCollector.daemonSet.adotConfig | toYaml | indent 4 }}
+    {{- $mergedConfig := mergeOverwrite .Values.adotCollector.daemonSet.adotConfigDefault .Values.adotCollector.daemonSet.adotConfig }}
+{{ $mergedConfig | toYaml | indent 4 }}
 {{- end }}
