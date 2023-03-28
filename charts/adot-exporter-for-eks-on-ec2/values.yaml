@@ -115,7 +115,7 @@ adotCollector:
         readOnly: true
       - name: "adot-config-vol"
         mountPath: "/conf"
-    adotConfigDefault:
+    adotConfig:
       extensions:
         health_check:
       receivers:
@@ -255,7 +255,7 @@ adotCollector:
           #   receivers: ["awscontainerinsightreceiver", "prometheus"]
           #   processors: ["filter/metrics_include", "resource/set_attributes", "batch/metrics"]
           #   exporters: ["awsemf"]
-        extensions: [health_check]
+        extensions: ["health_check"]
   sidecar:
     enabled: false
     name: "adot-sidecar"

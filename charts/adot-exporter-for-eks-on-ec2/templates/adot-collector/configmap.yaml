@@ -10,7 +10,6 @@ metadata:
     component: {{ .Values.adotCollector.daemonSet.configMap.component }}
     {{- include "adotCollector.daemonSet.labels" . | indent 4 }}
 data:
-  adot-config:  |
-    {{- $mergedConfig := mergeOverwrite .Values.adotCollector.daemonSet.adotConfigDefault .Values.adotCollector.daemonSet.adotConfig }}
-{{ $mergedConfig | toYaml | indent 4 }}
+  adot-config:  |-
+{{ toYaml .Values.adotCollector.daemonSet.adotConfig | indent 4 }}
 {{- end }}
