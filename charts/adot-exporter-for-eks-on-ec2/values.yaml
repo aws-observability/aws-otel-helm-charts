@@ -122,6 +122,12 @@ adotCollector:
         awscontainerinsightreceiver:
           collection_interval: 60s
           container_orchestrator: eks
+        otlp:
+          protocols:
+            grpc:
+              endpoint: 0.0.0.0:4317
+            http:
+              endpoint: 0.0.0.0:4318
       processors:
         batch/metrics:
           timeout: 60s
@@ -159,6 +165,9 @@ adotCollector:
             - key: ClusterName
               value: ""
               action: insert
+        # memory_limiter:
+        #   limit_mib: 100
+        #   check_interval: 5s
       exporters:
         awsemf:
           namespace: "ContainerInsights"
@@ -243,6 +252,8 @@ adotCollector:
         # logging:
         #   loglevel: debug
 
+        # awsxray:
+        #   region: ""
       service:
         pipelines:
           # These pipelines can be used with above configuration or can be changed.
@@ -255,6 +266,14 @@ adotCollector:
           #   receivers: ["awscontainerinsightreceiver", "prometheus"]
           #   processors: ["filter/metrics_include", "resource/set_attributes", "batch/metrics"]
           #   exporters: ["awsemf"]
+          # traces/logging:
+          #   receivers: ["otlp"]
+          #   processors: ["memory_limiter"]
+          #   exporters: ["logging"]
+          # traces/to-aws-xray:
+          #   receivers: [otlp]
+          #   processors: ["memory_limiter"]
+          #   exporters: ["awsxray"]
         extensions: ["health_check"]
   sidecar:
     enabled: false
