@@ -12,8 +12,6 @@ spec:
     port: 4318
   - name: traces-grpc
     port: 4317
-  - name: metrics
-    port: 8888
   selector:
     {{- include "adotCollector.daemonSet.selectorLabels" . | indent 4 }}
   type: {{ .Values.adotCollector.daemonSet.service.type }}
