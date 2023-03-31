@@ -9,11 +9,6 @@ clusterName: ""
 additionalLabels: {}
   # app: adot
 
-serviceAccount:
-  create: true
-  annotations: {}
-  name: ""
-
 adotCollector:
   image:
     name: "aws-otel-collector"
@@ -233,6 +228,16 @@ adotCollector:
       endpoint: ""
       resourcetootel: false
       authenticator: "sigv4auth"
+      timeout: "5s"
+      retry_on_failure:
+        enabled: true
+        initial_interval: "5s"
+        max_interval: "30s"
+        max_elapsed_time: "300s"
+      remote_write_queue:
+        enabled: false
+        queue_size: 5000
+        num_consutmers: 10
     service:
       metrics:
         receivers: ["prometheus"]

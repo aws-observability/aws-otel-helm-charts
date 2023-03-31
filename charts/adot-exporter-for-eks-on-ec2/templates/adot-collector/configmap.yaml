@@ -27,7 +27,7 @@ data:
           global:
             scrape_interval: {{ .Values.adotCollector.daemonSet.ampreceivers.scrapeInterval }}
             scrape_timeout: {{ .Values.adotCollector.daemonSet.ampreceivers.scrapeTimeout }}
-          scrape_configs: 
+          scrape_configs:
             {{ .Values.adotCollector.daemonSet.ampreceivers.scrapeConfigs | nindent 12 }}
     processors:
       batch/metrics:
@@ -48,11 +48,24 @@ data:
       prometheusremotewrite:
         namespace: {{ .Values.adotCollector.daemonSet.ampexporters.namespace }}
         endpoint: {{ .Values.adotCollector.daemonSet.ampexporters.endpoint }}
-        resource_to_telemetry_conversion: 
+        resource_to_telemetry_conversion:
           enabled: {{ .Values.adotCollector.daemonSet.ampexporters.resourcetootel }}
         auth:
           authenticator: {{ .Values.adotCollector.daemonSet.ampexporters.authenticator }}
-        
+        timeout: {{ .Values.adotCollector.daemonSet.ampexporters.timeout }}
+        {{- if .Values.adotCollector.daemonSet.ampexporters.remote_write_queue.enabled }}
+        {{- with .Values.adotCollector.daemonSet.ampexporters.remote_write_queue }}
+        remote_write_queue:
+          {{- toYaml . | nindent 10 }}
+        {{ - end }}
+        {{- end }}
+        {{- if .Values.adotCollector.daemonSet.ampexporters.retry_on_failure.enabled }}
+        {{- with .Values.adotCollector.daemonSet.ampexporters.retry_on_failure }}
+        retry_on_failure:
+          {{- toYaml . | nindent 10 }}
+        {{ - end }}
+        {{- end }}
+
     service:
       pipelines:
         metrics:
