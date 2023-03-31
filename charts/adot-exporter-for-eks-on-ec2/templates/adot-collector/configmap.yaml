@@ -57,13 +57,13 @@ data:
         {{- with .Values.adotCollector.daemonSet.ampexporters.remote_write_queue }}
         remote_write_queue:
           {{- toYaml . | nindent 10 }}
-        {{ - end }}
+        {{- end }}
         {{- end }}
         {{- if .Values.adotCollector.daemonSet.ampexporters.retry_on_failure.enabled }}
         {{- with .Values.adotCollector.daemonSet.ampexporters.retry_on_failure }}
         retry_on_failure:
           {{- toYaml . | nindent 10 }}
-        {{ - end }}
+        {{- end }}
         {{- end }}
 
     service:
