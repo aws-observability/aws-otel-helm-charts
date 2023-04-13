@@ -50,6 +50,22 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
+Service labels
+*/}}
+{{- define "adotCollector.service.labels" }}
+helm.sh/chart: {{ include "adotCollector.daemonSet.chart" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/component: opentelemetry
+app.kubernetes.io/part-of: {{ template "adotCollector.daemonSet.name" . }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels }}
+{{- end }}
+{{- end }}
+
+{{/*
 Selector labels
 */}}
 {{- define "adotCollector.daemonSet.selectorLabels" }}
