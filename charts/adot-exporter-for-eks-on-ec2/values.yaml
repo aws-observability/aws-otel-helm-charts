@@ -22,6 +22,7 @@ adotCollector:
     daemonSetPullPolicy: "IfNotPresent"
     sidecarPullPolicy: "Always"
   daemonSet:
+    name: "adot-collector"
     enabled: true
     daemonSetName: "adot-collector-daemonset"
     createNamespace: true
