@@ -69,6 +69,7 @@ adotCollector:
       requests:
         cpu: "200m"
         memory: "200Mi"
+    tolerations: []
     volumes:
       - configMap:
           name: "adot-conf"
