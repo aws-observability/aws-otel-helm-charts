@@ -249,6 +249,9 @@
                                 }
                             }
                         },
+                        "tolerations": {
+                            "type": "array"
+                        },
                         "volumes": {
                             "type": "array",
                             "items": [
