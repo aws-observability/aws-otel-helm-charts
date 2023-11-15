@@ -8,7 +8,7 @@ metadata:
     {{- include "adotCollector.daemonSet.labels" . | indent 4 }}
 rules:
   - apiGroups: [""]
-    resources: ["pods", "nodes", "endpoints"]
+    resources: ["pods", "nodes", "endpoints", "services"]
     verbs: ["list", "watch"]
   - apiGroups: ["apps"]
     resources: ["replicasets"]
@@ -33,4 +33,6 @@ rules:
   - apiGroups: ["coordination.k8s.io"]
     resources: ["leases"]
     verbs: ["get", "create"]
+  - nonResourceURLs: ["/metrics"]
+    verbs: ["get"]
 {{- end }}
