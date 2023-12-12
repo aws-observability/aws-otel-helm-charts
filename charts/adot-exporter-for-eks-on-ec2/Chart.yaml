@@ -2,8 +2,8 @@ apiVersion: v2
 name: adot-exporter-for-eks-on-ec2
 description: A Helm chart for collecting metrics using ADOT Collector to send to AWS monitoring services.
 type: application
-version: 0.21.0
-appVersion: "0.35.0"
+version: 0.22.0
+appVersion: "0.36.0"
 kubeVersion: ">=1.19.0-0"
 maintainers:
   - name: Bryan Aguilar
