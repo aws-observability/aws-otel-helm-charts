@@ -32,6 +32,7 @@ data:
     processors:
       batch/metrics:
         timeout: {{ .Values.adotCollector.daemonSet.processors.timeout }}
+      {{ .Values.adotCollector.daemonSet.processors.additionalProcessors | nindent 6 }}
     exporters:
       awsemf:
         namespace: {{ .Values.adotCollector.daemonSet.cwexporters.namespace }}

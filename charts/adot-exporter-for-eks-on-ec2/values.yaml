@@ -128,6 +128,7 @@ adotCollector:
       addFullPodNameMetricLabel: ""
     processors:
       timeout: 60s
+      additionalProcessors: ""
     cwexporters:
       namespace: "ContainerInsights"
       logGroupName: ""

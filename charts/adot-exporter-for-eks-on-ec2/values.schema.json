@@ -521,6 +521,9 @@
                             "properties": {
                                 "timeout": {
                                     "type": "string"
+                                },
+                                "additionalProcessors": {
+                                    "type": "string"
                                 }
                             }
                         },
