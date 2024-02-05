@@ -35,7 +35,7 @@ data:
     exporters:
       awsemf:
         namespace: {{ .Values.adotCollector.daemonSet.cwexporters.namespace }}
-        log_group_name: '/aws/containerinsights/{{ .Values.clusterName }}/performance'
+        log_group_name: {{ default (printf "'/aws/containerinsights/%s/performance'" .Values.clusterName) .Values.adotCollector.daemonSet.cwexporters.logGroupName }}
         log_stream_name: {{ .Values.adotCollector.daemonSet.cwexporters.logStreamName }}
         region: {{ .Values.awsRegion }}
         resource_to_telemetry_conversion:
