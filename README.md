@@ -1,6 +1,10 @@
 # AWS Distro for OpenTelemetry Helm Charts
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
+
+### :warning: Warning: ADOT Helm Charts is deprecated and the recommended way for users who use EKS on EC2 and want to ingest metrics is using the [ADOT EKS add-on](https://aws-otel.github.io/docs/getting-started/adot-eks-add-on), a wrapper around the OpenTelemetry Operator. By using the respective custom resource configuration you can run it, for example, as a `Deployment` or a `Daemonset`. For details, see this [example of how to use the add-on to ingest metrics into Amazon Managed Service for Prometheus](https://aws-otel.github.io/docs/getting-started/adot-eks-add-on/config-amp).
+
+
 ## Introduction
 This AWS Distro for OpenTelemetry (ADOT) Helm Charts repository contains [Helm](https://helm.sh/) charts to provide easy mechanisms to setup the ADOT Collector and other collection agents to collect telemetry data such as metrics, logs and traces to send to AWS monitoring services.
 
